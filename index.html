@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Silly Wizards Guild</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--paper:#E9E8E5;
+--ink:#111111;
+--muted:rgba(17,17,17,.68);
+--faint:rgba(17,17,17,.22);
+--pad:28px;
+--max:820px;
+--border:2px;
+--frameInset:10px; /* keyline spacing from edges */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+
+/* Fixed keyline frame (never breaks; doesn't affect layout) */
+body::before{
+content:"";
+position:fixed;
+inset:var(--frameInset);
+border:2px solid var(--ink);
+pointer-events:none;
+z-index:9999;
+}
+
+body{
+margin:0;
+background:var(--paper);
+color:var(--ink);
+font-family:"Spectral", serif;
+-webkit-font-smoothing:antialiased;
+text-rendering:geometricPrecision;
+overflow-x:hidden;
+}
+
+.wrap{
+max-width:var(--max);
+margin:0 auto;
+padding:var(--pad);
+position:relative;
+}
+
+/* Logo */
+header{
+text-align:center;
+margin-top: 4px;
+margin-bottom: 14px;
+}
+.logo-img{
+width: 320px;
+max-width: 86%;
+height:auto;
+display:block;
+margin: 0 auto 10px auto;
+image-rendering: pixelated;
+}
+
+/* Wizard pinned top-right */
+.wizard-pin{
+position:absolute;
+top: var(--pad);
+right: var(--pad);
+width: 76px;
+height: 76px;
+border:none;
+background:transparent;
+padding:0;
+cursor:pointer;
+-webkit-tap-highlight-color: transparent;
+}
+.wizard-pin img{
+width: 76px;
+height: 76px;
+display:block;
+image-rendering: pixelated;
+}
+
+/* Incantation */
+.incantation{
+text-align:center;
+margin: 26px 0 18px;
+}
+.spell{
+margin:0;
+font-size: clamp(30px, 4.2vw, 54px);
+line-height:1.12;
+letter-spacing:.01em;
+font-weight:400;
+}
+.spell-controls{
+margin-top: 12px;
+display:flex;
+justify-content:center;
+gap:10px;
+align-items:center;
+}
+.btn{
+border:1px solid var(--faint);
+background:transparent;
+color:var(--ink);
+padding:6px 10px;
+font-family:"Spectral", serif;
+font-size: 13px;
+cursor:pointer;
+}
+.btn:active{ transform: translateY(1px); }
+
+/* Field */
+.field{
+position:relative;
+height: 860px; /* more space so large icons never collide */
+margin-top: 16px;
+border-top: 1px solid var(--faint);
+border-bottom: 1px solid var(--faint);
+}
+
+.artefact{
+position:absolute;
+border:none;
+background:transparent;
+padding:0;
+cursor:pointer;
+-webkit-tap-highlight-color: transparent;
+transform-origin:center;
+}
+.artefact img{
+width:100%;
+height:100%;
+display:block;
+image-rendering: pixelated;
+}
+.artefact:hover{ transform: scale(1.02); }
+
+/* RPG dialog box (larger, monochrome, square, no shadows) */
+.dialog{
+position:fixed;
+left: 24px;
+top: 24px;
+width: min(520px, calc(100vw - 48px));
+background: var(--paper);
+border: var(--border) solid var(--ink);
+padding: 18px 18px 16px;
+display:none;
+z-index: 999;
+}
+.dialog::before{
+content:"";
+position:absolute;
+inset:-6px;
+border: var(--border) solid var(--ink);
+pointer-events:none;
+}
+
+/* Dialog title is Spectral now */
+.d-title{
+margin:0 0 10px 0;
+font-family:"Spectral", serif;
+font-size: 20px;
+font-weight: 600;
+letter-spacing: .01em;
+}
+.d-text{
+margin:0;
+font-size: 15px;
+line-height: 1.5;
+color: rgba(17,17,17,.92);
+white-space: pre-line;
+}
+.d-img{
+display:none;
+width:100%;
+margin-top: 12px;
+border: var(--border) solid var(--ink);
+image-rendering: pixelated;
+}
+.d-actions{
+margin-top: 12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+.d-link{
+text-decoration:none;
+color:var(--ink);
+border-bottom:1px solid var(--ink);
+font-weight:600;
+font-size: 13px;
+display:inline-block;
+padding-bottom:2px;
+}
+.d-link[aria-disabled="true"]{
+opacity:.5;
+border-bottom-color: transparent;
+cursor: default;
+pointer-events:none;
+}
+.d-close{
+border:1px solid var(--faint);
+background:transparent;
+color:var(--ink);
+padding:6px 10px;
+font-family:"Spectral", serif;
+font-size:13px;
+cursor:pointer;
+}
+
+footer{
+margin-top: 18px;
+text-align:center;
+color: var(--muted);
+font-size: 12px;
+font-style: italic;
+}
+
+@media (max-width: 520px){
+:root{ --pad:18px; --frameInset:8px; }
+.field{ height: 820px; }
+.wizard-pin{ width:70px; height:70px; }
+.wizard-pin img{ width:70px; height:70px; }
+.dialog{ left: 14px; top: 14px; width: min(520px, calc(100vw - 28px)); }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<!-- Wizard (pinned) -->
+<button class="wizard-pin" id="wizardPin" aria-label="Wizard portal (contact)">
+<img src="icons/WIZARD.png" alt="">
+</button>
+
+<header>
+<img class="logo-img" src="SW B Logo+.png" alt="Silly Wizards">
+<!-- Removed duplicate 'the creative guild' line -->
+</header>
+
+<section class="incantation">
+<p class="spell" id="spellLine">Thread the signal through the sleeping wire.</p>
+<div class="spell-controls">
+<!-- Refresh icon only -->
+<button class="btn" id="shuffleSpell" type="button" aria-label="New spell">↻</button>
+</div>
+</section>
+
+<section class="field" id="field" aria-label="Field of artefacts"></section>
+
+<!-- RPG Dialog -->
+<div class="dialog" id="dialog" role="dialog" aria-modal="false">
+<h3 class="d-title" id="dTitle"></h3>
+<p class="d-text" id="dText"></p>
+<img class="d-img" id="dImg" alt="">
+<div class="d-actions">
+<a class="d-link" id="dLink" href="#" target="_blank" rel="noopener">Enter →</a>
+<button class="d-close" id="dClose" type="button">Close</button>
+</div>
+</div>
+
+<footer>
+Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nounproject.
+</footer>
+</div>
+
+<script>
+/**********************
+* INCANTATIONS
+**********************/
+const INCANTATIONS = [
+"Whisper the word before the word.",
+"Thread the signal through the sleeping wire.",
+"Call the code that calls you back.",
+"Between pixel and breath, remain.",
+"Hold the cursor where the page exhales.",
+"Let the circuit remember your name.",
+"Close the tab that never opened.",
+"Whisper to the waiting pixel."
+];
+
+/**********************
+* ARTEFACTS (22 total including pinned wizard)
+**********************/
+const ARTEFACTS = [
+{ id:"WIZARD", file:"WIZARD.png", pinned:true,
+title:"Who Are the Silly Wizards?",
+text:"A curious collective of creators and makers who gather to combine design, storytelling and technology — solving problems and crafting original ideas.",
+link:"mailto:hello@sillywizardsguild.com",
+comingSoon:false, image:null
+},
+{ id:"TREE", file:"TREE.png",
+title:"The Tree of Links",
+text:"To be truly connected in these modern times it seems a link tree is all you need to grow. So here is ours.",
+link:null, comingSoon:true, image:null
+},
+{ id:"BRUSH", file:"BRUSH.png",
+title:"Standard Work™",
+text:"A brand-building engine with real people pushing the buttons. No fluff. No flannel. Priced upfront.",
+link:"https://standardwork.design", comingSoon:false, image:null
+},
+{ id:"POTION", file:"POTION.png",
+title:"Strange Worlds",
+text:"Creating stand-out spatial solutions for exhibitions and events.",
+link:null, comingSoon:true, image:null
+},
+{ id:"ICE_CREAM", file:"ICE CREAM.png",
+title:"Attelje",
+text:"An independent brand, communication and design consultancy providing local start-ups with years of international experience.",
+link:"https://attelje.com", comingSoon:false, image:null
+},
+{ id:"BROLLY", file:"BROLLY.png",
+title:"Today’s Weather",
+text:"Slightly overcast with spells likely in the afternoon. For an alternative opinion, take a look out your window.",
+link:null, comingSoon:false, image:null
+},
+{ id:"COFFEE", file:"COFFEE.png",
+title:"How Do You Take Yours?",
+text:"You’re always welcome to drop by for a hot libation and scintillating conversation.\nPop us an email and we’ll warm up the cauldron.",
+link:"mailto:hello@sillywizardsguild.com", comingSoon:false, image:null
+},
+{ id:"GOGGLES", file:"GOGGLES.png",
+title:"Seriously, Wow!",
+text:"We’ve been directing photographers and filmmakers for years — and now we direct AI.\nIf you need jaw-dropping high-end images or video that make people say seriously, wow, hit us up.",
+link:"https://seriouslywow.com", comingSoon:true, image:null
+},
+{ id:"BOLT", file:"BOLT.png",
+title:"Hang On… What If We?",
+text:"If a big idea just struck like lightning, get in touch and let’s make magic.",
+link:"mailto:hello@sillywizardsguild.com", comingSoon:false, image:null
+},
+{ id:"PHONE", file:"PHONE.png",
+title:"Straight to Voicemail",
+text:"It seems you’ve stumbled upon our contact details — why not go the extra mile and drop us a line?",
+link:"mailto:hello@sillywizardsguild.com", comingSoon:false, image:null
+},
+{ id:"BAG", file:"BAG.png",
+title:"Shopping Losts",
+text:"Years ago we became slightly obsessed with turning lost shopping lists into typographic treats.",
+link:"http://shoppinglosts.blogspot.com/", comingSoon:false, image:null
+},
+{ id:"KEY", file:"KEY.png",
+title:"Simon’s Spells",
+text:"Twenty-five years of blood, sweat and magic had to live somewhere.\nYou’ve just found the key to the dusty trunk. Enjoy.",
+link:"https://www.behance.net/simonattwater", comingSoon:false, image:null
+},
+{ id:"WATCH", file:"WATCH.png",
+title:"South North Studios",
+text:"Filippos has spent more years than he cares to admit conjuring virtual and augmented realities for global brands. Prepare to have your brain pleasantly rearranged.",
+link:"https://southnorth.se", comingSoon:false, image:null
+},
+{ id:"SKULL", file:"SKULL.png",
+title:"Black Mirror",
+text:"One hundred self-portraits created across one hundred long Swedish nights.",
+link:"https://www.behance.net/gallery/145658459/Blaeck-Mirror", comingSoon:false, image:null
+},
+{ id:"SHROOM", file:"SHROOM.png",
+title:"DO NOT EAT",
+text:"Or maybe just nibble a little bit and see what happens.",
+link:null, comingSoon:false, image:null
+},
+{ id:"TELLY", file:"TELLY.png",
+title:"An Intervention",
+text:"A short film which takes place at the edge of an ending.\nComing soon to a screen near you.",
+link:null, comingSoon:true, image:null
+},
+{ id:"MEGAPHONE", file:"MEGAPHONE.png",
+title:"Scene Vision",
+text:"An innovative platform transforming the pre-production process in filmmaking.",
+link:"https://scene.vision/", comingSoon:false, image:null
+},
+{ id:"MIC", file:"MIC.png",
+title:"S.I.D — Spring in December",
+text:"A synth-metal animated series set in a universe where sound is running out.",
+link:null, comingSoon:true, image:null
+},
+{ id:"STAG", file:"STAG.png",
+title:"Somewhere, Out There.",
+text:"A short film following one man’s desert odyssey as he attempts to uncover the truth behind the mythical Unicamel.",
+link:"https://www.youtube.com/watch?v=eN385BX7RFA", comingSoon:false, image:null
+},
+{ id:"HERB", file:"HERB.png",
+title:"Smells Like Wizard Spirit",
+text:"According to our D.A.D. (Data Analytics Druid), 86% of visitors will find tapping the Devil’s Lettuce irresistible.\nOf that 86%, 99% will be utterly disappointed by the result.",
+link:null, comingSoon:false, image:null
+},
+{ id:"BOMB", file:"BOMB.png",
+title:"Your Daily Truth Bomb",
+text:"Whatever you lay your eyes on, imagine exactly how it would feel if you touched your tongue to it.",
+link:null, comingSoon:false, image:null
+},
+{ id:"FOLDER", file:"FOLDER.png",
+title:"Untitled Folder",
+text:"…",
+link:null, comingSoon:false, image:null
+}
+];
+
+/**********************
+* Constellation hover + no-overlap placement
+**********************/
+const ICON_BASE = 90; // icon size
+const DRIFT_X = 3; // micro hover
+const DRIFT_Y = 4;
+const GAP = 40; // extra breathing room between icons (edge-to-edge)
+const MOBILE_SCALE = 0.82; // shrink icons on small screens only
+
+
+/**********************
+* DOM
+**********************/
+const field = document.getElementById("field");
+const dialog = document.getElementById("dialog");
+const dTitle = document.getElementById("dTitle");
+const dText = document.getElementById("dText");
+const dImg = document.getElementById("dImg");
+const dLink = document.getElementById("dLink");
+
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function rand(min,max){ return Math.random()*(max-min)+min; }
+function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+/**********************
+* Incantation
+**********************/
+function setSpell(){
+document.getElementById("spellLine").textContent = choice(INCANTATIONS);
+}
+
+/**********************
+* Dialog
+**********************/
+function hideDialog(){
+dialog.style.display = "none";
+}
+
+function openDialogFor(art, anchorRect){
+dTitle.textContent = art.title || "";
+dText.textContent = art.text || "";
+
+if (art.image){
+dImg.src = art.image;
+dImg.style.display = "block";
+} else {
+dImg.style.display = "none";
+}
+
+if (art.comingSoon){
+dLink.textContent = "Soon →";
+dLink.href = "#";
+dLink.setAttribute("aria-disabled","true");
+dLink.style.display = "inline-block";
+} else if (art.link){
+dLink.textContent = "Enter →";
+dLink.href = art.link;
+dLink.setAttribute("aria-disabled","false");
+dLink.style.display = "inline-block";
+} else {
+dLink.style.display = "none";
+}
+
+dialog.style.display = "block";
+
+const margin = 12;
+const dw = dialog.offsetWidth;
+const dh = dialog.offsetHeight;
+
+let left = anchorRect.left + anchorRect.width + 12;
+let top = anchorRect.top - 8;
+
+left = clamp(left, margin, window.innerWidth - dw - margin);
+top = clamp(top, margin, window.innerHeight - dh - margin);
+
+dialog.style.left = left + "px";
+dialog.style.top = top + "px";
+}
+
+/**********************
+* Field / Artefacts
+**********************/
+let nodes = [];
+let fieldW = 0;
+let fieldH = 0;
+
+function measureField(){
+const r = field.getBoundingClientRect();
+fieldW = r.width;
+fieldH = r.height;
+}
+
+// Size-aware + drift-aware placement to avoid overlap
+function findSpot(size){
+const pad = 28;
+const tries = 4000;
+
+for(let t=0; t<tries; t++){
+const x = rand(pad, fieldW - size - pad);
+const y = rand(pad, fieldH - size - pad);
+
+const ok = nodes.every(n => {
+const required =
+(size/2) + (n.size/2) + GAP + (Math.max(DRIFT_X, DRIFT_Y) * 2);
+
+const dx = (n.ax - x);
+const dy = (n.ay - y);
+return (dx*dx + dy*dy) > (required * required);
+});
+
+if(ok) return {x,y};
+}
+
+return { x: rand(pad, fieldW - size - pad), y: rand(pad, fieldH - size - pad) };
+}
+
+function spawnArtefacts(){
+field.innerHTML = "";
+nodes = [];
+measureField();
+
+const floaters = ARTEFACTS.filter(a => !a.pinned);
+
+floaters.forEach((art) => {
+const el = document.createElement("button");
+el.type = "button";
+el.className = "artefact";
+el.setAttribute("aria-label", art.title || art.id);
+
+const scale = rand(0.90, 1.08);
+const isMobile = window.matchMedia("(max-width: 520px)").matches;
+const base = isMobile ? ICON_BASE * 0.82 : ICON_BASE;
+const size = Math.round(base * scale);
+el.style.width = size + "px";
+el.style.height = size + "px";
+
+const img = document.createElement("img");
+img.src = "icons/" + art.file;
+img.alt = "";
+el.appendChild(img);
+
+const spot = findSpot(size);
+const ax = spot.x;
+const ay = spot.y;
+
+const phase = rand(0, Math.PI*2);
+const phase2 = rand(0, Math.PI*2);
+
+el.style.left = ax + "px";
+el.style.top = ay + "px";
+
+el.addEventListener("click", (e) => {
+e.stopPropagation();
+openDialogFor(art, el.getBoundingClientRect());
+});
+
+field.appendChild(el);
+nodes.push({ art, el, ax, ay, phase, phase2, size });
+});
+}
+
+function animate(){
+const t = Date.now() * 0.001;
+
+for(const n of nodes){
+const x = n.ax + Math.sin(t * 0.7 + n.phase) * DRIFT_X;
+const y = n.ay + Math.cos(t * 0.6 + n.phase2) * DRIFT_Y;
+
+const cx = clamp(x, 6, fieldW - n.size - 6);
+const cy = clamp(y, 6, fieldH - n.size - 6);
+
+n.el.style.left = cx + "px";
+n.el.style.top = cy + "px";
+}
+
+requestAnimationFrame(animate);
+}
+
+/**********************
+* Wizard pin
+**********************/
+function setupWizard(){
+const wizData = ARTEFACTS.find(a => a.id === "WIZARD");
+const wizBtn = document.getElementById("wizardPin");
+
+wizBtn.addEventListener("click", (e) => {
+e.stopPropagation();
+openDialogFor(wizData, wizBtn.getBoundingClientRect());
+});
+}
+
+/**********************
+* Init
+**********************/
+function init(){
+setSpell();
+document.getElementById("shuffleSpell").addEventListener("click", setSpell);
+
+document.getElementById("dClose").addEventListener("click", hideDialog);
+dialog.addEventListener("click", (e) => e.stopPropagation());
+document.addEventListener("click", () => hideDialog());
+
+spawnArtefacts();
+setupWizard();
+requestAnimationFrame(animate);
+
+window.addEventListener("resize", () => {
+hideDialog();
+spawnArtefacts();
+});
+}
+
+init();
+</script>
+</body>
+</html>
+
