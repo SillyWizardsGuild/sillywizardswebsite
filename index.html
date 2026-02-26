@@ -118,9 +118,6 @@ align-items:center;
   height: 80px;
 }
 
-.btn:active{
-  transform: scale(0.95);
-}
 @keyframes wandFloat{
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
@@ -128,9 +125,13 @@ align-items:center;
 
 #shuffleSpell{
   animation: wandFloat 2.8s ease-in-out infinite;
+  transition: transform 160ms ease;
 } 
-#shuffleSpell:hover{
-  transform: rotate(-8deg) scale(1.08);
+@media (hover: hover) and (pointer: fine){
+  #shuffleSpell:hover{
+    animation: none;
+    transform: translateY(-3px) rotate(-6deg) scale(1.08);
+  }
 }
 .btn img{
   width: 100%;
