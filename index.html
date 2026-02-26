@@ -172,7 +172,14 @@ position:fixed;
 left: 24px;
 top: 24px;
 width: min(520px, calc(100vw - 48px));
-background: var(--paper);
+background: 
+  linear-gradient(
+    135deg,
+    rgba(255, 110, 199, 0.18),
+    rgba(90, 200, 250, 0.16),
+    rgba(255, 214, 10, 0.14)
+  ),
+  var(--paper);
 border: var(--border) solid var(--ink);
 padding: 18px 18px 16px;
 display:none;
