@@ -107,15 +107,18 @@ gap:10px;
 align-items:center;
 }
 .btn{
-border:1px solid var(--faint);
-background:transparent;
-color:var(--ink);
-padding:6px 10px;
-font-family:"Spectral", serif;
-font-size: 13px;
-cursor:pointer;
+  border:none;
+  background:transparent;
+  padding:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.btn:active{ transform: translateY(1px); }
+
+.btn:active{
+  transform: scale(0.95);
+}
 
 /* Field */
 .field{
@@ -252,7 +255,9 @@ font-style: italic;
 <p class="spell" id="spellLine">Thread the signal through the sleeping wire.</p>
 <div class="spell-controls">
 <!-- Refresh icon only -->
-<button class="btn" id="shuffleSpell" type="button" aria-label="New spell">↻</button>
+<button class="btn" id="shuffleSpell" type="button" aria-label="New spell">
+  <img src="icons/WAND.png" alt="" class="btn-icon">
+</button>
 </div>
 </section>
 
