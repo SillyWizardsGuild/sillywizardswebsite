@@ -341,6 +341,12 @@ text:"A curious collective of creators and makers who gather to combine design, 
 link:"mailto:hello@sillywizardsguild.com",
 comingSoon:false, image:null
 },
+{id: 'CAMERA',
+src: 'icons/CAMERA.png',
+title: 'Follow the Guild',
+text: 'Ongoing spells, experiments and visual mischief. Follow the guild on Instagram.',
+link: 'https://instagram.com/sillywizardsguild'
+},  
 { id:"TREE", file:"TREE.png",
 title:"The Tree of Links",
 text:"To be truly connected in these modern times it seems a link tree is all you need to grow. So here is ours.",
@@ -638,6 +644,27 @@ e.stopPropagation();
 openDialogFor(wizData, wizBtn.getBoundingClientRect());
 });
 }
+  function setupCamera() {
+  const camData = ARTEFACTS.find(a => a.id === "CAMERA");
+
+  const cam = document.createElement("img");
+  cam.src = camData.src;
+  cam.id = "cameraPin";
+
+  cam.style.position = "fixed";
+  cam.style.top = "20px";
+  cam.style.left = "20px";
+  cam.style.width = "60px";
+  cam.style.cursor = "pointer";
+  cam.style.zIndex = "10";
+
+  cam.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openDialogFor(camData, cam.getBoundingClientRect());
+  });
+
+  document.body.appendChild(cam);
+}
 
 /**********************
 * Init
@@ -652,6 +679,7 @@ document.addEventListener("click", () => hideDialog());
 
 spawnArtefacts();
 setupWizard();
+setupCamera();
 requestAnimationFrame(animate);
 
 window.addEventListener("resize", () => {
