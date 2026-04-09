@@ -651,19 +651,21 @@ openDialogFor(wizData, wizBtn.getBoundingClientRect());
   cam.src = camData.src;
   cam.id = "cameraPin";
 
-  cam.style.position = "fixed";
-  cam.style.top = "28px";
-  cam.style.left = "28px";
-  cam.style.width = "60px";
-  cam.style.cursor = "pointer";
-  cam.style.zIndex = "10";
+cam.style.position = "absolute";
+cam.style.top = "var(--pad)";
+cam.style.left = "var(--pad)";
+cam.style.width = "52px";
+cam.style.height = "52px";
+cam.style.cursor = "pointer";
+cam.style.zIndex = "10";
+cam.style.imageRendering = "pixelated";
 
   cam.addEventListener("click", (e) => {
     e.stopPropagation();
     openDialogFor(camData, cam.getBoundingClientRect());
   });
 
-  document.body.appendChild(cam);
+  document.querySelector(".wrap").appendChild(cam);
 }
 
 /**********************
