@@ -575,7 +575,7 @@ field.innerHTML = "";
 nodes = [];
 measureField();
 
-const floaters = ARTEFACTS.filter(a => !a.pinned);
+const floaters = ARTEFACTS.filter(a => !a.pinned && a.id !== "CAMERA");
 
 floaters.forEach((art) => {
 const el = document.createElement("button");
