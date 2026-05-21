@@ -188,7 +188,7 @@ image-rendering: pixelated;
   62%{ transform:scale(0.92) rotate(3deg); }
   100%{ transform:scale(1) rotate(0deg); }
 }
-.artefact:hover{ animation:wobble 0.6s ease !important; }
+.artefact:hover{ animation:wobble 0.6s ease forwards !important; }
 .artefact.popping{ animation:iconPop 0.32s ease !important; }
 
 /* RPG dialog box (larger, monochrome, square, no shadows) */
@@ -636,6 +636,7 @@ const noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (!noMotion) {
   el.style.opacity = "0";
   el.style.animation = "artefactIn 0.45s ease " + (nodes.length * 0.045).toFixed(2) + "s forwards";
+  el.addEventListener("animationend", function(){ this.style.opacity=""; this.style.animation=""; }, {once:true});
 }
 
 el.addEventListener("click", (e) => {
