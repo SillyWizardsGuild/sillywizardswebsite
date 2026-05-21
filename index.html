@@ -294,7 +294,8 @@ font-style: italic;
   <img src="icons/WAND.png" alt="" class="btn-icon">
 </button>
   
-  <p class="wand-note">'i didn't realise you could tap on the icons' — J.Strang</p>
+  <p class="wand-note"><span class="tap-hint">tap anything</span></p>
+<p class="wand-note">'i didn't realise you could tap on the icons' — J.Strang</p>
 </div>
 </section>
 
@@ -379,7 +380,7 @@ link:"mailto:hello@sillywizardsguild.com", comingSoon:false, image:null
 },
 { id:"GOGGLES", file:"GOGGLES.png",
 title:"Seriously, Wow!",
-text:"We’ve been directing photographers and filmmakers for years — and now we direct AI.\nIf you need jaw-dropping high-end images or video that make people say seriously, wow, hit us up.",
+text:"We don’t generate images — we direct them.\nHigh-end synthetic photography, film and illustration for brands that refuse to settle for slop.",
 link:"https://seriouslywow.com", comingSoon:false, image:null
 },
 { id:"BOLT", file:"BOLT.png",
@@ -518,7 +519,7 @@ dLink.style.display = "none";
 }
 
 dialog.style.display = "block";
-
+if (window.innerWidth <= 520) { return; }
 const margin = 12;
 const dw = dialog.offsetWidth;
 const dh = dialog.offsetHeight;
@@ -604,6 +605,10 @@ const phase2 = rand(0, Math.PI*2);
 
 el.style.left = ax + "px";
 el.style.top = ay + "px";
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  el.style.opacity = "0";
+  el.style.animation = "artefactIn 0.45s ease " + (nodes.length * 0.045).toFixed(2) + "s forwards";
+}
 
 el.addEventListener("click", (e) => {
 e.stopPropagation();
@@ -616,6 +621,7 @@ nodes.push({ art, el, ax, ay, phase, phase2, size });
 }
 
 function animate(){
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { requestAnimationFrame(animate); return; }
 const t = Date.now() * 0.001;
 
 for(const n of nodes){
