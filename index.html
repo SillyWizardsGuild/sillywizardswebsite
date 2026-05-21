@@ -682,13 +682,6 @@ openDialogFor(camData, cr);
   document.querySelector(".wrap").appendChild(cam);
 }
 
-const nodes = document.querySelectorAll('.artefact');
-nodes.forEach(function(el, i){
-  el.addEventListener('click', function(e){
-    const rect = e.currentTarget.getBoundingClientRect();
-    spawnSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
-    el.classList.add('popping');
-    el.addEventListener('animationend', function(){ el.classList.remove('popping'); },{once:true});
   });
 });
 
@@ -734,6 +727,15 @@ dialog.addEventListener("click", (e) => e.stopPropagation());
 document.addEventListener("click", () => hideDialog());
 
 spawnArtefacts();
+  const nodes = document.querySelectorAll('.artefact');
+  nodes.forEach(function(el){
+    el.addEventListener('click', function(e){
+      const rect = e.currentTarget.getBoundingClientRect();
+      spawnSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
+      el.classList.add('popping');
+      el.addEventListener('animationend', function(){ el.classList.remove('popping'); },{once:true});
+    });
+  });
 setupWizard();
 setupCamera();
 requestAnimationFrame(animate);
