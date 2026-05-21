@@ -27,21 +27,12 @@
 --pad:28px;
 --max:820px;
 --border:2px;
---frameInset:10px; /* keyline spacing from edges */
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
 
 /* Fixed keyline frame (never breaks; doesn't affect layout) */
-body::before{
-content:"";
-position:fixed;
-inset:var(--frameInset);
-border:2px solid var(--ink);
-pointer-events:none;
-z-index:9999;
-}
 
 body{
 margin:0;
@@ -292,8 +283,7 @@ font-style: italic;
 }
 
 @media (max-width: 520px){
-:root{ --pad:18px; --frameInset:8px; }
-.field{ height: 820px; }
+:root{ --pad:18px; .field{ height: 820px; }
 .wizard-pin{ width:70px; height:70px; }
 .wizard-pin img{ width:70px; height:70px; }
 .dialog{ left: 14px; top: 14px; width: min(520px, calc(100vw - 28px)); }
