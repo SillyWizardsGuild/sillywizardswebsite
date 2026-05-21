@@ -605,33 +605,7 @@ el.className = "artefact";
 el.setAttribute("aria-label", art.title || art.id);
 
 const scale = rand(0.90, 1.08);
-const isMobile = window.matchMedia("(max-width: 520px)").matches;
-const base = isMobile ? ICON_BASE * 0.82 : ICON_BASE;
-const size = Math.round(base * scale);
-el.style.width = size + "px";
-el.style.height = size + "px";
-
-const img = document.createElement("img");
-img.src = "icons/" + art.file;
-img.alt = "";
-el.appendChild(img);
-
-const spot = findSpot(size);
-const ax = spot.x;
-const ay = spot.y;
-
-const phase = rand(0, Math.PI*2);
-const phase2 = rand(0, Math.PI*2);
-
-el.style.left = ax + "px";
-el.style.top = ay + "px";
-const noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (!noMotion) {
-  el.style.opacity = "0";
-  el.style.animation = "artefactIn 0.45s ease " + (nodes.length * 0.045).toFixed(2) + "s forwards";
-  el.addEventListener("animationend", function(){ this.style.opacity=""; this.style.animation=""; }, {once:true});
-}
-
+const isMobile = window
 el.addEventListener("click", (e) => {
 e.stopPropagation();
 const rect = el.getBoundingClientRect();
