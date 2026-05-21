@@ -280,8 +280,6 @@ font-style: italic;
 }
 @keyframes artefactIn { from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
 @keyframes slideUp { from{ transform:translateY(20px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
-.tap-hint { display:inline-block; font-style:normal; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; animation:tapPulse 2.6s ease-in-out infinite; }
-@keyframes tapPulse { 0%,100%{ opacity:0.25; } 50%{ opacity:0.65; } }
 @media(prefers-reduced-motion:reduce){ .artefact,#shuffleSpell,.tap-hint{ animation:none !important; } }
 </style>
 </head>
@@ -307,8 +305,7 @@ font-style: italic;
   <img src="icons/WAND.png" alt="" class="btn-icon">
 </button>
   
-  <p class="wand-note"><span class="tap-hint">tap anything</span></p>
-<p class="wand-note">'i didn't realise you could tap on the icons' — J.Strang</p>
+  <p class="wand-note">'i didn't realise you could tap on the icons' — J.Strang</p>
 </div>
 </section>
 
