@@ -172,7 +172,21 @@ height:100%;
 display:block;
 image-rendering: pixelated;
 }
-.artefact:hover{ transform: scale(1.02); }
+@keyframes wobble {
+  0%,100%{ transform:scale(1) rotate(0deg); }
+  20%{ transform:scale(1.10) rotate(-8deg); }
+  45%{ transform:scale(1.07) rotate(6deg); }
+  65%{ transform:scale(1.05) rotate(-4deg); }
+  82%{ transform:scale(1.02) rotate(2deg); }
+}
+@keyframes iconPop {
+  0%{ transform:scale(1) rotate(0deg); }
+  30%{ transform:scale(1.22) rotate(-6deg); }
+  62%{ transform:scale(0.92) rotate(3deg); }
+  100%{ transform:scale(1) rotate(0deg); }
+}
+.artefact:hover{ animation:wobble 0.45s ease; }
+.artefact.popping{ animation:iconPop 0.32s ease !important; }
 
 /* RPG dialog box (larger, monochrome, square, no shadows) */
 .dialog{
@@ -280,7 +294,7 @@ font-style: italic;
 }
 @keyframes artefactIn { from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
 @keyframes slideUp { from{ transform:translateY(20px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
-@media(prefers-reduced-motion:reduce){ .artefact,#shuffleSpell,.tap-hint{ animation:none !important; } }
+@media(prefers-reduced-motion:reduce){ .artefact,.artefact:hover,.artefact.popping,#shuffleSpell{ animation:none !important; } }
 </style>
 </head>
 
@@ -623,7 +637,11 @@ if (!noMotion) {
 
 el.addEventListener("click", (e) => {
 e.stopPropagation();
-openDialogFor(art, el.getBoundingClientRect());
+const rect = el.getBoundingClientRect();
+spawnSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
+el.classList.add("popping");
+el.addEventListener("animationend", () => el.classList.remove("popping"), {once:true});
+openDialogFor(art, rect);
 });
 
 field.appendChild(el);
@@ -683,6 +701,29 @@ cam.style.imageRendering = "pixelated";
   });
 
   document.querySelector(".wrap").appendChild(cam);
+}
+
+/**********************
+* Sparkle burst
+**********************/
+function spawnSparkle(cx, cy){
+  if(window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const palette=["#ff6ec7","#ffd700","#7edcff","#E9E8E5","#111111","#c084fc"];
+  const count=8;
+  for(let i=0;i<count;i++){
+    const p=document.createElement("div");
+    const size=4+Math.round(Math.random()*4);
+    p.style.cssText="position:fixed;width:"+size+"px;height:"+size+"px;background:"+palette[i%palette.length]+";pointer-events:none;z-index:9998;left:"+(cx-size/2)+"px;top:"+(cy-size/2)+"px;image-rendering:pixelated;";
+    document.body.appendChild(p);
+    const angle=(i/count)*Math.PI*2+Math.random()*0.4;
+    const dist=35+Math.random()*40;
+    const dx=Math.cos(angle)*dist;
+    const dy=Math.sin(angle)*dist;
+    p.animate(
+      [{transform:"translate(0,0) scale(1)",opacity:1},{transform:"translate("+dx+"px,"+dy+"px) scale(0)",opacity:0}],
+      {duration:420+Math.random()*180,easing:"cubic-bezier(0.2,0.8,0.4,1)",fill:"forwards"}
+    ).onfinish=()=>p.remove();
+  }
 }
 
 /**********************
