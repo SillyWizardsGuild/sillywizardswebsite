@@ -4,6 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Silly Wizards Guild</title>
+<meta name="description" content="A curious collective blending design, storytelling and technology.">
+<meta property="og:title" content="Silly Wizards Guild">
+<meta property="og:description" content="A curious collective blending design, storytelling and technology.">
+<meta property="og:image" content="https://www.sillywizardsguild.com/SillyBlackLogoLine.png">
+<meta property="og:url" content="https://www.sillywizardsguild.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.sillywizardsguild.com/SillyBlackLogoLine.png">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -270,6 +278,11 @@ font-style: italic;
 .wizard-pin img{ width:70px; height:70px; }
 .dialog{ left: 14px; top: 14px; width: min(520px, calc(100vw - 28px)); }
 }
+@keyframes artefactIn { from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+@keyframes slideUp { from{ transform:translateY(20px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+.tap-hint { display:inline-block; font-style:normal; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; animation:tapPulse 2.6s ease-in-out infinite; }
+@keyframes tapPulse { 0%,100%{ opacity:0.25; } 50%{ opacity:0.65; } }
+@media(prefers-reduced-motion:reduce){ .artefact,#shuffleSpell,.tap-hint{ animation:none !important; } }
 </style>
 </head>
 
@@ -605,7 +618,8 @@ const phase2 = rand(0, Math.PI*2);
 
 el.style.left = ax + "px";
 el.style.top = ay + "px";
-if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+const noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (!noMotion) {
   el.style.opacity = "0";
   el.style.animation = "artefactIn 0.45s ease " + (nodes.length * 0.045).toFixed(2) + "s forwards";
 }
