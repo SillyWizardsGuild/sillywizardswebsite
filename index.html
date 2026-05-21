@@ -189,6 +189,9 @@ image-rendering: pixelated;
   100%{ transform:scale(1) rotate(0deg); }
 }
 .artefact:hover{ animation:wobble 0.6s ease forwards !important; }
+.wizard-pin:hover,#cameraPin:hover{ animation:wobble 0.6s ease forwards; }
+#shuffleSpell:hover{ animation:wobble 0.6s ease forwards !important; }
+.wizard-pin.popping,#cameraPin.popping{ animation:iconPop 0.32s ease !important; }
 .artefact.popping{ animation:iconPop 0.32s ease !important; }
 
 /* RPG dialog box (larger, monochrome, square, no shadows) */
@@ -680,7 +683,11 @@ const wizBtn = document.getElementById("wizardPin");
 
 wizBtn.addEventListener("click", (e) => {
 e.stopPropagation();
-openDialogFor(wizData, wizBtn.getBoundingClientRect());
+const wr = wizBtn.getBoundingClientRect();
+spawnSparkle(wr.left + wr.width/2, wr.top + wr.height/2);
+wizBtn.classList.add("popping");
+wizBtn.addEventListener("animationend", () => wizBtn.classList.remove("popping"), {once:true});
+openDialogFor(wizData, wr);
 });
 }
   function setupCamera() {
@@ -700,9 +707,13 @@ cam.style.zIndex = "10";
 cam.style.imageRendering = "pixelated";
 
   cam.addEventListener("click", (e) => {
-    e.stopPropagation();
-    openDialogFor(camData, cam.getBoundingClientRect());
-  });
+e.stopPropagation();
+const cr = cam.getBoundingClientRect();
+spawnSparkle(cr.left + cr.width/2, cr.top + cr.height/2);
+cam.classList.add("popping");
+cam.addEventListener("animationend", () => cam.classList.remove("popping"), {once:true});
+openDialogFor(camData, cr);
+});
 
   document.querySelector(".wrap").appendChild(cam);
 }
@@ -735,7 +746,14 @@ function spawnSparkle(cx, cy){
 **********************/
 function init(){
 setSpell();
-document.getElementById("shuffleSpell").addEventListener("click", setSpell);
+document.getElementById("shuffleSpell").addEventListener("click", () => {
+setSpell();
+const wnd = document.getElementById("shuffleSpell");
+const wr2 = wnd.getBoundingClientRect();
+spawnSparkle(wr2.left + wr2.width/2, wr2.top + wr2.height/2);
+wnd.classList.add("popping");
+wnd.addEventListener("animationend", () => wnd.classList.remove("popping"), {once:true});
+});
 
 document.getElementById("dClose").addEventListener("click", hideDialog);
 dialog.addEventListener("click", (e) => e.stopPropagation());
