@@ -302,7 +302,8 @@ font-style: italic;
 }
 
 @media (max-width: 520px){
-:root{ --pad:18px; .field{ height: 820px; }
+:root{ --pad:18px; }
+.field{ height: 1400px; }
 .wizard-pin{ width:70px; height:70px; }
 .wizard-pin img{ width:70px; height:70px; }
 .dialog{ width: min(520px, calc(100vw - 28px)); }
@@ -592,6 +593,7 @@ fieldH = r.height;
 function findSpot(size){
 const pad = 28;
 const tries = 4000;
+const gap = window.matchMedia("(max-width: 520px)").matches ? 10 : GAP;
 
 for(let t=0; t<tries; t++){
 const x = rand(pad, fieldW - size - pad);
@@ -599,7 +601,7 @@ const y = rand(pad, fieldH - size - pad);
 
 const ok = nodes.every(n => {
 const required =
-(size/2) + (n.size/2) + GAP + (Math.max(DRIFT_X, DRIFT_Y) * 2);
+(size/2) + (n.size/2) + gap + (Math.max(DRIFT_X, DRIFT_Y) * 2);
 
 const dx = (n.ax - x);
 const dy = (n.ay - y);
