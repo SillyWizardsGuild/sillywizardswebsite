@@ -4,15 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Silly Wizards Guild</title>
-  <link rel="icon" type="image/png" href="icons/WIZARD.png" />
-<meta name="description" content="A curious collective blending design, storytelling and technology.">
-<meta property="og:title" content="Silly Wizards Guild">
-<meta property="og:description" content="A curious collective blending design, storytelling and technology.">
-<meta property="og:image" content="https://www.sillywizardsguild.com/SillyBlackLogoLine.png">
-<meta property="og:url" content="https://www.sillywizardsguild.com">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.sillywizardsguild.com/SillyBlackLogoLine.png">
+<link rel="icon" type="image/png" href="https://www.sillywizardsguild.com/icons/WIZARD.png" />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,12 +20,21 @@
 --pad:28px;
 --max:820px;
 --border:2px;
+--frameInset:10px; /* keyline spacing from edges */
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
 
 /* Fixed keyline frame (never breaks; doesn't affect layout) */
+body::before{
+content:"";
+position:fixed;
+inset:var(--frameInset);
+border:2px solid var(--ink);
+pointer-events:none;
+z-index:9999;
+}
 
 body{
 margin:0;
@@ -157,7 +158,6 @@ padding:0;
 cursor:pointer;
 -webkit-tap-highlight-color: transparent;
 transform-origin:center;
-opacity:1;
 }
 .artefact img{
 width:100%;
@@ -165,44 +165,14 @@ height:100%;
 display:block;
 image-rendering: pixelated;
 }
-@keyframes wobble {
-  0%{ transform:scale(1) rotate(0deg); opacity:1; }
-  15%{ transform:scale(1.18) rotate(-18deg); opacity:1; }
-  35%{ transform:scale(1.14) rotate(14deg); opacity:1; }
-  55%{ transform:scale(1.10) rotate(-10deg); opacity:1; }
-  72%{ transform:scale(1.06) rotate(6deg); opacity:1; }
-  88%{ transform:scale(1.03) rotate(-2deg); opacity:1; }
-  100%{ transform:scale(1) rotate(0deg); opacity:1; }
-}
-@keyframes iconPop {
-  0%{ transform:scale(1) rotate(0deg); }
-  30%{ transform:scale(1.22) rotate(-6deg); }
-  62%{ transform:scale(0.92) rotate(3deg); }
-  100%{ transform:scale(1) rotate(0deg); }
-}
-.artefact:hover{ animation:wobble 0.6s ease forwards !important; }
-.wizard-pin:hover,#cameraPin:hover{ animation:wobble 0.6s ease forwards; }
-#shuffleSpell:hover{ animation:wobble 0.6s ease forwards !important; }
-.wizard-pin.popping,#cameraPin.popping{ animation:iconPop 0.32s ease !important; }
-.artefact.popping{ animation:iconPop 0.32s ease !important; }
+.artefact:hover{ transform: scale(1.02); }
 
-/* Backdrop */
-#backdrop{
-position:fixed;
-inset:0;
-background:rgba(17,17,17,0.52);
-z-index:997;
-display:none;
-cursor:pointer;
-}
-
-/* RPG dialog box — centered modal */
+/* RPG dialog box (larger, monochrome, square, no shadows) */
 .dialog{
 position:fixed;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-width: min(480px, calc(100vw - 48px));
+left: 24px;
+top: 24px;
+width: min(520px, calc(100vw - 48px));
 background: 
   linear-gradient(
     135deg,
@@ -231,7 +201,6 @@ font-family:"Spectral", serif;
 font-size: 20px;
 font-weight: 600;
 letter-spacing: .01em;
-text-align:center;
 }
 .d-text{
 margin:0;
@@ -246,13 +215,6 @@ width:100%;
 margin-top: 12px;
 border: var(--border) solid var(--ink);
 image-rendering: pixelated;
-}
-.d-icon{
-display:none;
-width:72px;
-height:72px;
-image-rendering:pixelated;
-margin:0 auto 16px;
 }
 .d-actions{
 margin-top: 12px;
@@ -303,20 +265,389 @@ font-style: italic;
 }
 
 @media (max-width: 520px){
-:root{ --pad:18px; }
-.field{ height: 1400px; }
+:root{ --pad:18px; --frameInset:8px; }
+.field{ height: 820px; }
 .wizard-pin{ width:70px; height:70px; }
 .wizard-pin img{ width:70px; height:70px; }
-.dialog{ width: min(520px, calc(100vw - 28px)); }
+.dialog{ left: 14px; top: 14px; width: min(520px, calc(100vw - 28px)); }
 }
-@keyframes artefactIn { from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
-@keyframes slideUp { from{ transform:translateY(20px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
-@media(prefers-reduced-motion:reduce){ .artefact,.artefact:hover,.artefact.popping,#shuffleSpell{ animation:none !important; } }
+
+/* ============================
+   GO DEEPER
+   ============================ */
+
+.go-deeper-wrap {
+  text-align: center;
+  padding: 48px 0 36px;
+}
+
+@keyframes glimmer {
+  0%, 60%, 100% { color: rgba(17,17,17,0.32); }
+  80% { color: rgba(17,17,17,0.82); }
+}
+
+.go-deeper-btn {
+  font-family: "Spectral", serif;
+  font-size: clamp(30px, 4.2vw, 54px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: .01em;
+  color: rgba(17,17,17,0.32);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  animation: glimmer 5s ease-in-out infinite;
+  animation-delay: 2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.go-deeper-btn:hover {
+  animation: none;
+  color: var(--ink);
+}
+
+/* ============================
+   WORLDVIEW OVERLAY
+   ============================ */
+
+/* Faint bone keyline, shown only when overlay is open */
+.wv-frame {
+  display: none;
+  position: fixed;
+  inset: var(--frameInset);
+  border: 2px solid rgba(233,232,229,0.22);
+  pointer-events: none;
+  z-index: 9998;
+}
+.wv-frame.active { display: block; }
+
+/* The overlay itself */
+#worldview {
+  position: fixed;
+  inset: 0;
+  background: #1A1918;
+  color: #E9E8E5;
+  z-index: 500;
+  transform: translateY(100%);
+  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: "Spectral", serif;
+  -webkit-font-smoothing: antialiased;
+}
+#worldview.open { transform: translateY(0); }
+
+/* Close button */
+.wv-close {
+  position: fixed;
+  top: 28px;
+  right: 28px;
+  background: transparent;
+  border: none;
+  color: rgba(233,232,229,0.45);
+  font-family: "Spectral", serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  z-index: 9997;
+  padding: 8px;
+  display: none;
+}
+.wv-close:hover { color: rgba(233,232,229,0.9); }
+.wv-close.active { display: block; }
+
+/* Content wrap */
+.wv-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+/* Opening — large centered statement */
+.wv-opening {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px var(--pad);
+}
+
+.wv-statement {
+  font-size: clamp(26px, 3.8vw, 50px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  color: rgba(233,232,229,0.88);
+  margin: 0;
+  max-width: 680px;
+}
+
+/* Pull quote */
+.wv-pullquote {
+  text-align: center;
+  padding: 80px var(--pad);
+  border-top: 1px solid rgba(233,232,229,0.12);
+}
+
+.wv-pullquote-title {
+  font-size: clamp(44px, 7.5vw, 100px);
+  font-weight: 400;
+  line-height: 1;
+  margin: 0 0 18px;
+  letter-spacing: -0.01em;
+  color: rgba(233,232,229,0.92);
+}
+
+.wv-pullquote-sub {
+  font-size: clamp(18px, 2.4vw, 28px);
+  font-style: italic;
+  margin: 0;
+  color: rgba(233,232,229,0.55);
+}
+
+/* Guild identity */
+.wv-guild {
+  text-align: center;
+  padding: 80px var(--pad);
+  border-top: 1px solid rgba(233,232,229,0.12);
+}
+
+.wv-logo {
+  width: 260px;
+  max-width: 65%;
+  height: auto;
+  image-rendering: pixelated;
+  margin: 0 auto 20px;
+  display: block;
+  /* Bone logo on dark bg — already the right color */
+}
+
+.wv-tagline {
+  font-size: clamp(11px, 1.4vw, 14px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(233,232,229,0.38);
+  margin: 0 0 36px;
+}
+
+.wv-hr {
+  border: none;
+  border-top: 1px solid rgba(233,232,229,0.15);
+  margin: 36px auto;
+  max-width: 480px;
+}
+
+.wv-mission {
+  font-size: clamp(20px, 2.8vw, 34px);
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(233,232,229,0.88);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Generic content section */
+.wv-section {
+  padding: 80px var(--pad);
+  border-top: 1px solid rgba(233,232,229,0.12);
+}
+
+.wv-section-inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.wv-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(233,232,229,0.28);
+  margin: 0 0 44px;
+}
+
+.wv-prose {
+  font-size: clamp(16px, 1.8vw, 20px);
+  line-height: 1.7;
+  color: rgba(233,232,229,0.75);
+  margin: 0 0 20px;
+}
+
+.wv-prose-italic {
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-style: italic;
+  line-height: 1.65;
+  color: rgba(233,232,229,0.52);
+  margin: 32px 0 0;
+}
+
+/* Beliefs list */
+.wv-beliefs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wv-beliefs li {
+  font-size: clamp(19px, 2.5vw, 32px);
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(233,232,229,0.82);
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(233,232,229,0.09);
+}
+
+.wv-beliefs li:first-child { border-top: 1px solid rgba(233,232,229,0.09); }
+
+/* Value comparison */
+.wv-value-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+  margin-top: 4px;
+}
+
+.wv-value-col-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(233,232,229,0.28);
+  margin: 0 0 22px;
+}
+
+.wv-value-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wv-value-items li {
+  font-size: clamp(14px, 1.5vw, 17px);
+  line-height: 1.5;
+  color: rgba(233,232,229,0.5);
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(233,232,229,0.07);
+}
+.wv-value-items li:first-child { border-top: 1px solid rgba(233,232,229,0.07); }
+
+.wv-value-col:last-child .wv-value-items li {
+  color: rgba(233,232,229,0.88);
+}
+
+/* Design layers */
+.wv-layers { margin-top: 4px; }
+
+.wv-layer {
+  padding: 28px 0;
+  border-top: 1px solid rgba(233,232,229,0.12);
+}
+
+.wv-layer-name {
+  font-size: clamp(12px, 1.3vw, 15px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(233,232,229,0.85);
+  margin: 0 0 8px;
+  font-weight: 400;
+}
+
+.wv-layer-desc {
+  font-size: clamp(13px, 1.3vw, 15px);
+  color: rgba(233,232,229,0.38);
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* Ecosystem ventures */
+.wv-ventures { margin-top: 4px; }
+
+.wv-venture {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 22px 0;
+  border-top: 1px solid rgba(233,232,229,0.1);
+  gap: 24px;
+}
+
+.wv-venture-name {
+  font-size: clamp(18px, 2.3vw, 28px);
+  font-weight: 400;
+  color: rgba(233,232,229,0.88);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.wv-venture-focus {
+  font-size: clamp(12px, 1.2vw, 14px);
+  color: rgba(233,232,229,0.35);
+  text-align: right;
+  margin: 0;
+  font-style: italic;
+  flex-shrink: 0;
+}
+
+/* Closing */
+.wv-closing {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px var(--pad);
+  border-top: 1px solid rgba(233,232,229,0.12);
+}
+
+.wv-closing-logo {
+  width: 160px;
+  max-width: 40%;
+  height: auto;
+  image-rendering: pixelated;
+  margin: 0 auto 40px;
+  display: block;
+  opacity: 0.55;
+}
+
+.wv-closing-statement {
+  font-size: clamp(20px, 2.8vw, 38px);
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(233,232,229,0.88);
+  max-width: 620px;
+  margin: 0 0 52px;
+}
+
+.wv-surface-btn {
+  font-size: 14px;
+  font-family: "Spectral", serif;
+  font-style: italic;
+  color: rgba(233,232,229,0.35);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  padding: 10px;
+}
+
+.wv-surface-btn:hover { color: rgba(233,232,229,0.75); }
+
+/* Mobile tweaks */
+@media (max-width: 520px) {
+  .wv-value-grid { grid-template-columns: 1fr; gap: 36px; }
+  .wv-venture { flex-direction: column; gap: 4px; }
+  .wv-venture-focus { text-align: left; }
+  .wv-opening, .wv-pullquote, .wv-guild, .wv-closing { padding: 64px 18px; }
+  .wv-section { padding: 60px 18px; }
+  .wv-close { top: 18px; right: 18px; }
+}
 </style>
 </head>
 
 <body>
-<div id="backdrop"></div>
 <div class="wrap">
 
 <!-- Wizard (pinned) -->
@@ -344,8 +675,7 @@ font-style: italic;
 <section class="field" id="field" aria-label="Field of artefacts"></section>
 
 <!-- RPG Dialog -->
-<div class="dialog" id="dialog" role="dialog" aria-modal="true">
-<img class="d-icon" id="dIcon" alt="">
+<div class="dialog" id="dialog" role="dialog" aria-modal="false">
 <h3 class="d-title" id="dTitle"></h3>
 <p class="d-text" id="dText"></p>
 <img class="d-img" id="dImg" alt="">
@@ -358,7 +688,151 @@ font-style: italic;
 <footer>
 Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nounproject.
 </footer>
+
+<div class="go-deeper-wrap">
+  <button class="go-deeper-btn" id="goDeeperBtn" type="button" aria-label="Go deeper — learn more about the Silly Wizards Guild">Go Deeper</button>
 </div>
+
+</div>
+
+<!-- Bone keyline overlay for dark mode -->
+<div class="wv-frame" id="wvFrame"></div>
+
+<!-- Close button (fixed, shown when overlay is open) -->
+<button class="wv-close" id="wvClose" type="button" aria-label="Return to surface">← Surface</button>
+
+<!-- Worldview overlay -->
+<div id="worldview" role="dialog" aria-label="Silly Wizards Worldview" aria-modal="true">
+
+  <!-- 1. Opening statement -->
+  <div class="wv-opening">
+    <p class="wv-statement">As automation increases, human orchestration, taste, narrative and systems thinking, become more important.</p>
+  </div>
+
+  <!-- 2. Pull quote -->
+  <div class="wv-pullquote">
+    <p class="wv-pullquote-title">In the era of AI</p>
+    <p class="wv-pullquote-sub">human direction has become <em>MORE</em> valuable.</p>
+  </div>
+
+  <!-- 3. Guild identity -->
+  <div class="wv-guild">
+    <img class="wv-logo" src="SillyBlackLogoLine.png" alt="Silly Wizards" style="filter:invert(1) sepia(0.12) brightness(0.88);">
+    <p class="wv-tagline">Human-centred creative technology systems</p>
+    <hr class="wv-hr">
+    <p class="wv-mission">The Silly Wizards Guild is dedicated to designing more meaningful relationships between people, technology, narrative &amp; experience.</p>
+  </div>
+
+  <!-- 4. The Shift -->
+  <div class="wv-section">
+    <div class="wv-section-inner">
+      <p class="wv-label">The Shift</p>
+      <p class="wv-prose">AI is transforming creative production. Tools are accelerating faster than understanding. Content is abundant. Meaning is scarce. Experiences are becoming technologically richer but emotionally thinner.</p>
+      <p class="wv-prose-italic">Creativity is shifting from production toward orchestration. The value is no longer in making more content, but in designing more meaningful systems.</p>
+    </div>
+  </div>
+
+  <!-- 5. Our Belief -->
+  <div class="wv-section">
+    <div class="wv-section-inner">
+      <p class="wv-label">Our Belief</p>
+      <ul class="wv-beliefs">
+        <li>Human judgment matters.</li>
+        <li>Technology should deepen meaning.</li>
+        <li>AI should amplify imagination, not replace it.</li>
+        <li>Systems should feel human.</li>
+        <li>Creativity is becoming orchestration, not just production.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6. The Value Shift -->
+  <div class="wv-section">
+    <div class="wv-section-inner">
+      <p class="wv-label">The Value Shift</p>
+      <div class="wv-value-grid">
+        <div class="wv-value-col">
+          <p class="wv-value-col-label">Most AI &amp; creative tech practices optimise for</p>
+          <ul class="wv-value-items">
+            <li>Speed</li>
+            <li>Automation</li>
+            <li>Production volume</li>
+            <li>Technical novelty</li>
+          </ul>
+        </div>
+        <div class="wv-value-col">
+          <p class="wv-value-col-label">We focus on</p>
+          <ul class="wv-value-items">
+            <li>Human orchestration</li>
+            <li>Narrative intelligence</li>
+            <li>Meaningful interaction</li>
+            <li>Cultural depth</li>
+            <li>Systems thinking</li>
+            <li>Human-centred implementation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. What We Design -->
+  <div class="wv-section">
+    <div class="wv-section-inner">
+      <p class="wv-label">What We Design</p>
+      <div class="wv-layers">
+        <div class="wv-layer">
+          <p class="wv-layer-name">Foundational Layer</p>
+          <p class="wv-layer-desc">AI / Emerging technologies / Automation systems / Interaction technologies</p>
+        </div>
+        <div class="wv-layer">
+          <p class="wv-layer-name">System Design Layer</p>
+          <p class="wv-layer-desc">Synthetic production systems / Interactive experience systems / Narrative systems / Organisational systems</p>
+        </div>
+        <div class="wv-layer">
+          <p class="wv-layer-name">Application Layer</p>
+          <p class="wv-layer-desc">Media / Experiences / Brands / Institutions / Public interaction / Education / Communication</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Our Ecosystem -->
+  <div class="wv-section">
+    <div class="wv-section-inner">
+      <p class="wv-label">Our Ecosystem</p>
+      <div class="wv-ventures">
+        <div class="wv-venture">
+          <p class="wv-venture-name">Standard Work</p>
+          <p class="wv-venture-focus">Organisational &amp; brand systems</p>
+        </div>
+        <div class="wv-venture">
+          <p class="wv-venture-name">Seriously, Wow</p>
+          <p class="wv-venture-focus">Human-directed synthetic production</p>
+        </div>
+        <div class="wv-venture">
+          <p class="wv-venture-name">Strange Worlds</p>
+          <p class="wv-venture-focus">Immersive experience systems</p>
+        </div>
+        <div class="wv-venture">
+          <p class="wv-venture-name">South North Studios</p>
+          <p class="wv-venture-focus">Technical interaction systems</p>
+        </div>
+        <div class="wv-venture">
+          <p class="wv-venture-name">Attelje</p>
+          <p class="wv-venture-focus">Strategic design &amp; narrative systems</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Closing -->
+  <div class="wv-closing">
+    <img class="wv-closing-logo" src="SillyBlackLogoLine.png" alt="Silly Wizards" style="filter:invert(1) sepia(0.12) brightness(0.88);">
+    <p class="wv-closing-statement">Exploring more meaningful relationships between humans, creativity and technology. And designing human-centred systems for the AI era.</p>
+    <button class="wv-surface-btn" id="wvSurfaceBtn" type="button">← Return to the surface</button>
+  </div>
+
+</div><!-- end #worldview -->
 
 <script>
 /**********************
@@ -397,7 +871,7 @@ text:"To be truly connected in these modern times it seems a link tree is all yo
 link:null, comingSoon:true, image:null
 },
 { id:"BRUSH", file:"BRUSH.png",
-title:"Standard Work™",
+title:"Standard Work\u2122",
 text:"A brand-building engine with real people pushing the buttons. No fluff. No flannel. Priced upfront.",
 link:"https://standardwork.design", comingSoon:false, image:null
 },
@@ -412,28 +886,28 @@ text:"An independent brand, communication and design consultancy providing local
 link:"https://attelje.com", comingSoon:false, image:null
 },
 { id:"BROLLY", file:"BROLLY.png",
-title:"Today’s Weather",
+title:"Today's Weather",
 text:"Slightly overcast with spells likely in the afternoon. For an alternative opinion, take a look out your window.",
 link:null, comingSoon:false, image:null
 },
 { id:"COFFEE", file:"COFFEE.png",
 title:"How Do You Take Yours?",
-text:"You’re always welcome to drop by for a hot libation and scintillating conversation.\nPop us an email and we’ll warm up the cauldron.",
+text:"You're always welcome to drop by for a hot libation and scintillating conversation.\nPop us an email and we'll warm up the cauldron.",
 link:"mailto:hello@sillywizardsguild.com", comingSoon:false, image:null
 },
 { id:"GOGGLES", file:"GOGGLES.png",
 title:"Seriously, Wow!",
-text:"We don’t generate images — we direct them.\nHigh-end synthetic photography, film and illustration for brands that refuse to settle for slop.",
-link:"https://seriouslywow.com", comingSoon:false, image:null
+text:"We've been directing photographers and filmmakers for years — and now we direct AI.\nIf you need jaw-dropping high-end images or video that make people say seriously, wow, hit us up.",
+link:"https://seriouslywow.com", comingSoon:true, image:null
 },
-{ id:"BOLT", file:"BOLT.png",
-title:"Hang On… What If We?",
-text:"If a big idea just struck like lightning, get in touch and let’s make magic.",
+{ id:"BOLT", file:"BOLT", file:"BOLT.png",
+title:"Hang On\u2026 What If We?",
+text:"If a big idea just struck like lightning, get in touch and let's make magic.",
 link:"mailto:hello@sillywizardsguild.com", comingSoon:false, image:null
 },
 { id:"PHONE", file:"PHONE.png",
 title:"Straight to Voicemail",
-text:"It seems you’ve stumbled upon our contact details — why not go the extra mile and drop us a line?",
+text:"It seems you've stumbled upon our contact details — why not go the extra mile and drop us a line?",
 link:"mailto:hello@sillywizardsguild.com", comingSoon:false, image:null
 },
 { id:"BAG", file:"BAG.png",
@@ -442,8 +916,8 @@ text:"Years ago we became slightly obsessed with turning lost shopping lists int
 link:"http://shoppinglosts.blogspot.com/", comingSoon:false, image:null
 },
 { id:"KEY", file:"KEY.png",
-title:"Simon’s Spells",
-text:"Twenty-five years of blood, sweat and magic had to live somewhere.\nYou’ve just found the key to the dusty trunk. Enjoy.",
+title:"Simon's Spells",
+text:"Twenty-five years of blood, sweat and magic had to live somewhere.\nYou've just found the key to the dusty trunk. Enjoy.",
 link:"https://www.behance.net/simonattwater", comingSoon:false, image:null
 },
 { id:"WATCH", file:"WATCH.png",
@@ -478,12 +952,12 @@ link:null, comingSoon:true, image:null
 },
 { id:"STAG", file:"STAG.png",
 title:"Somewhere, Out There.",
-text:"A short film following one man’s desert odyssey as he attempts to uncover the truth behind the mythical Unicamel.",
+text:"A short film following one man's desert odyssey as he attempts to uncover the truth behind the mythical Unicamel.",
 link:"https://www.youtube.com/watch?v=eN385BX7RFA", comingSoon:false, image:null
 },
 { id:"HERB", file:"HERB.png",
 title:"Smells Like Wizard Spirit",
-text:"According to our D.A.D. (Data Analytics Druid), 86% of visitors will find tapping the Devil’s Lettuce irresistible.\nOf that 86%, 99% will be utterly disappointed by the result.",
+text:"According to our D.A.D. (Data Analytics Druid), 86% of visitors will find tapping the Devil's Lettuce irresistible.\nOf that 86%, 99% will be utterly disappointed by the result.",
 link:null, comingSoon:false, image:null
 },
 { id:"BOMB", file:"BOMB.png",
@@ -493,7 +967,7 @@ link:null, comingSoon:false, image:null
 },
 { id:"FOLDER", file:"FOLDER.png",
 title:"Untitled Folder",
-text:"…",
+text:"\u2026",
 link:null, comingSoon:false, image:null
 }
 ];
@@ -511,13 +985,7 @@ const MOBILE_SCALE = 0.82; // shrink icons on small screens only
 /**********************
 * DOM
 **********************/
-const field = document.getElementById("field");
-const dialog = document.getElementById("dialog");
-const dTitle = document.getElementById("dTitle");
-const dText = document.getElementById("dText");
-const dImg = document.getElementById("dImg");
-const backdrop = document.getElementById("backdrop");
-const dIcon = document.getElementById("dIcon");
+const field = documentById("dImg");
 const dLink = document.getElementById("dLink");
 
 function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
@@ -536,10 +1004,9 @@ document.getElementById("spellLine").textContent = choice(INCANTATIONS);
 **********************/
 function hideDialog(){
 dialog.style.display = "none";
-backdrop.style.display = "none";
 }
 
-function openDialogFor(art){
+function openDialogFor(art, anchorRect){
 dTitle.textContent = art.title || "";
 dText.textContent = art.text || "";
 
@@ -551,12 +1018,12 @@ dImg.style.display = "none";
 }
 
 if (art.comingSoon){
-dLink.textContent = "Soon →";
+dLink.textContent = "Soon \u2192";
 dLink.href = "#";
 dLink.setAttribute("aria-disabled","true");
 dLink.style.display = "inline-block";
 } else if (art.link){
-dLink.textContent = "Enter →";
+dLink.textContent = "Enter \u2192";
 dLink.href = art.link;
 dLink.setAttribute("aria-disabled","false");
 dLink.style.display = "inline-block";
@@ -564,17 +1031,20 @@ dLink.style.display = "inline-block";
 dLink.style.display = "none";
 }
 
-// Icon
-const iconSrc = art.file ? "icons/" + art.file : (art.src || null);
-if(iconSrc){
-dIcon.src = iconSrc;
-dIcon.style.display = "block";
-} else {
-dIcon.style.display = "none";
-}
-
-backdrop.style.display = "block";
 dialog.style.display = "block";
+
+const margin = 12;
+const dw = dialog.offsetWidth;
+const dh = dialog.offsetHeight;
+
+let left = anchorRect.left + anchorRect.width + 12;
+let top = anchorRect.top - 8;
+
+left = clamp(left, margin, window.innerWidth - dw - margin);
+top = clamp(top, margin, window.innerHeight - dh - margin);
+
+dialog.style.left = left + "px";
+dialog.style.top = top + "px";
 }
 
 /**********************
@@ -594,7 +1064,6 @@ fieldH = r.height;
 function findSpot(size){
 const pad = 28;
 const tries = 4000;
-const gap = window.matchMedia("(max-width: 520px)").matches ? 10 : GAP;
 
 for(let t=0; t<tries; t++){
 const x = rand(pad, fieldW - size - pad);
@@ -602,7 +1071,7 @@ const y = rand(pad, fieldH - size - pad);
 
 const ok = nodes.every(n => {
 const required =
-(size/2) + (n.size/2) + gap + (Math.max(DRIFT_X, DRIFT_Y) * 2);
+(size/2) + (n.size/2) + GAP + (Math.max(DRIFT_X, DRIFT_Y) * 2);
 
 const dx = (n.ax - x);
 const dy = (n.ay - y);
@@ -649,15 +1118,10 @@ const phase2 = rand(0, Math.PI*2);
 
 el.style.left = ax + "px";
 el.style.top = ay + "px";
-const noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 el.addEventListener("click", (e) => {
 e.stopPropagation();
-const rect = el.getBoundingClientRect();
-spawnSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
-el.classList.add("popping");
-el.addEventListener("animationend", () => el.classList.remove("popping"), {once:true});
-openDialogFor(art);
+openDialogFor(art, el.getBoundingClientRect());
 });
 
 field.appendChild(el);
@@ -666,7 +1130,6 @@ nodes.push({ art, el, ax, ay, phase, phase2, size });
 }
 
 function animate(){
-if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { requestAnimationFrame(animate); return; }
 const t = Date.now() * 0.001;
 
 for(const n of nodes){
@@ -692,11 +1155,7 @@ const wizBtn = document.getElementById("wizardPin");
 
 wizBtn.addEventListener("click", (e) => {
 e.stopPropagation();
-const wr = wizBtn.getBoundingClientRect();
-spawnSparkle(wr.left + wr.width/2, wr.top + wr.height/2);
-wizBtn.classList.add("popping");
-wizBtn.addEventListener("animationend", () => wizBtn.classList.remove("popping"), {once:true});
-openDialogFor(wizData);
+openDialogFor(wizData, wizBtn.getBoundingClientRect());
 });
 }
   function setupCamera() {
@@ -716,38 +1175,11 @@ cam.style.zIndex = "10";
 cam.style.imageRendering = "pixelated";
 
   cam.addEventListener("click", (e) => {
-e.stopPropagation();
-const cr = cam.getBoundingClientRect();
-spawnSparkle(cr.left + cr.width/2, cr.top + cr.height/2);
-cam.classList.add("popping");
-cam.addEventListener("animationend", () => cam.classList.remove("popping"), {once:true});
-openDialogFor(camData);
-});
+    e.stopPropagation();
+    openDialogFor(camData, cam.getBoundingClientRect());
+  });
 
   document.querySelector(".wrap").appendChild(cam);
-}
-
-/**********************
-* Sparkle burst
-**********************/
-function spawnSparkle(cx, cy){
-  if(window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
-  const palette=["#ff6ec7","#ffd700","#7edcff","#E9E8E5","#111111","#c084fc"];
-  const count=8;
-  for(let i=0;i<count;i++){
-    const p=document.createElement("div");
-    const size=4+Math.round(Math.random()*4);
-    p.style.cssText="position:fixed;width:"+size+"px;height:"+size+"px;background:"+palette[i%palette.length]+";pointer-events:none;z-index:9998;left:"+(cx-size/2)+"px;top:"+(cy-size/2)+"px;image-rendering:pixelated;";
-    document.body.appendChild(p);
-    const angle=(i/count)*Math.PI*2+Math.random()*0.4;
-    const dist=35+Math.random()*40;
-    const dx=Math.cos(angle)*dist;
-    const dy=Math.sin(angle)*dist;
-    p.animate(
-      [{transform:"translate(0,0) scale(1)",opacity:1},{transform:"translate("+dx+"px,"+dy+"px) scale(0)",opacity:0}],
-      {duration:420+Math.random()*180,easing:"cubic-bezier(0.2,0.8,0.4,1)",fill:"forwards"}
-    ).onfinish=()=>p.remove();
-  }
 }
 
 /**********************
@@ -755,17 +1187,9 @@ function spawnSparkle(cx, cy){
 **********************/
 function init(){
 setSpell();
-document.getElementById("shuffleSpell").addEventListener("click", () => {
-setSpell();
-const wnd = document.getElementById("shuffleSpell");
-const wr2 = wnd.getBoundingClientRect();
-spawnSparkle(wr2.left + wr2.width/2, wr2.top + wr2.height/2);
-wnd.classList.add("popping");
-wnd.addEventListener("animationend", () => wnd.classList.remove("popping"), {once:true});
-});
+document.getElementById("shuffleSpell").addEventListener("click", setSpell);
 
 document.getElementById("dClose").addEventListener("click", hideDialog);
-backdrop.addEventListener("click", hideDialog);
 dialog.addEventListener("click", (e) => e.stopPropagation());
 document.addEventListener("click", () => hideDialog());
 
@@ -781,7 +1205,56 @@ spawnArtefacts();
 }
 
 init();
+
+/**********************
+* WORLDVIEW OVERLAY
+**********************/
+(function(){
+  const overlay   = document.getElementById("worldview");
+  const frame     = document.getElementById("wvFrame");
+  const closeBtn  = document.getElementById("wvClose");
+  const surfaceBtn = document.getElementById("wvSurfaceBtn");
+  const openBtn   = document.getElementById("goDeeperBtn");
+
+  function openWorldview() {
+    overlay.classList.add("open");
+    frame.classList.add("active");
+    closeBtn.classList.add("active");
+    document.body.style.overflow = "hidden";
+    overlay.scrollTop = 0;
+    history.pushState({ worldview: true }, "", "#worldview");
+  }
+
+  function closeWorldview() {
+    overlay.classList.remove("open");
+    frame.classList.remove("active");
+    closeBtn.classList.remove("active");
+    document.body.style.overflow = "";
+    if (location.hash === "#worldview") {
+      history.pushState({}, "", location.pathname);
+    }
+  }
+
+  openBtn.addEventListener("click", openWorldview);
+  closeBtn.addEventListener("click", closeWorldview);
+  surfaceBtn.addEventListener("click", closeWorldview);
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && overlay.classList.contains("open")) {
+      closeWorldview();
+    }
+  });
+
+  window.addEventListener("popstate", function(e) {
+    if (overlay.classList.contains("open")) {
+      closeWorldview();
+    }
+  });
+
+  if (location.hash === "#worldview") {
+    openWorldview();
+  }
+})();
 </script>
 </body>
 </html>
-
