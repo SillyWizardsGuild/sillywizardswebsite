@@ -342,6 +342,8 @@ font-style: italic;
 
 #worldview { position: fixed; inset: 0; background: #1A1918; color: #E9E8E5; z-index: 500; transform: translateY(100%); transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1); pointer-events: none; overflow-y: auto; overflow-x: hidden; font-family: "Spectral", serif; -webkit-font-smoothing: antialiased; }
 #worldview.open { transform: translateY(0); pointer-events: auto; }
+#caver-lamp { position: fixed; inset: 0; pointer-events: none; z-index: 501; background: radial-gradient(ellipse 65% 38% at 50% 50%, transparent 0%, transparent 30%, rgba(26,25,24,0.6) 62%, rgba(26,25,24,0.95) 100%); opacity: 0; transition: opacity 1.4s ease; }
+#caver-lamp.active { opacity: 1; }
 .wv-return-label { cursor: pointer; transition: color 0.2s; text-align: center; font-family: "Jacquard 24", monospace; font-size: clamp(16px, 1.5vw, 22px); color: rgba(233,232,229,0.38); padding: 32px var(--pad); letter-spacing: 0.04em; }
 .wv-return-label:hover { color: rgba(233,232,229,0.88); }
 .wv-opening { padding: 0 var(--pad) 120px clamp(28px, 24vw, 360px); }
@@ -534,6 +536,7 @@ Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nou
   <div class="wv-return-label" onclick="closeWorldview()">Return to Surface</div>
 </div>
 
+<div id="caver-lamp"></div>
 </div><!-- end #worldview -->
 
 <script>
@@ -956,6 +959,7 @@ init();
 
   function openWorldview() {
     overlay.classList.add("open");
+      lamp.classList.add("active");
     document.body.style.overflow = "hidden";
     overlay.scrollTop = 0;
     history.pushState({ worldview: true }, "", "#worldview");
@@ -963,6 +967,7 @@ init();
 
   function closeWorldview() {
     overlay.classList.remove("open");
+      lamp.classList.remove("active");
     document.body.style.overflow = "";
     if (location.hash === "#worldview") {
       history.pushState({}, "", location.pathname);
