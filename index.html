@@ -342,7 +342,8 @@ font-style: italic;
 
 #worldview { position: fixed; inset: 0; background: #1A1918; color: #E9E8E5; z-index: 500; transform: translateY(100%); transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1); pointer-events: none; overflow-y: auto; overflow-x: hidden; font-family: "Spectral", serif; -webkit-font-smoothing: antialiased; }
 #worldview.open { transform: translateY(0); pointer-events: auto; }
-.wv-return-label { cursor: pointer; text-align: center; font-family: "Jacquard 12", monospace; font-size: clamp(16px, 1.5vw, 22px); color: rgba(233,232,229,0.38); padding: 32px var(--pad); letter-spacing: 0.04em; }
+.wv-return-label { cursor: pointer; transition: color 0.2s; text-align: center; font-family: "Jacquard 12", monospace; font-size: clamp(16px, 1.5vw, 22px); color: rgba(233,232,229,0.38); padding: 32px var(--pad); letter-spacing: 0.04em; }
+.wv-return-label:hover { color: rgba(233,232,229,0.88); }
 .wv-opening { min-height: 85vh; display: flex; align-items: center; padding: 80px var(--pad); }
 .wv-statement { font-size: clamp(26px, 5vw, 70px); font-weight: 400; line-height: 1.15; letter-spacing: -0.05em; color: rgba(233,232,229,0.88); margin: 0; max-width: 820px; }
 .wv-pullquote { padding: 0 var(--pad) 120px; text-align: center; }
@@ -532,8 +533,6 @@ Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nou
   <p class="wv-closing-text">Exploring more meaningful relationships between humans, creativity and technology. And designing human-centred systems for the AI era.</p>
   <button class="wv-surface-btn" id="wvSurfaceBtn" type="button">← Return to the surface</button>
 </div>
-
-<div class="wv-return-label" onclick="closeWorldview()">Return to Surface</div>
 
 </div><!-- end #worldview -->
 
