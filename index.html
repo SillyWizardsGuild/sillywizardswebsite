@@ -439,7 +439,7 @@ Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nou
 <!-- Worldview overlay -->
 <div id="worldview" role="dialog" aria-label="Silly Wizards — The Lowdown" aria-modal="true">
 
-<div class="wv-return-label">Return to Surface</div>
+<div class="wv-return-label" onclick="closeWorldview()">Return to Surface</div>
 
 <div class="wv-section-title">The<br>Lowdown</div>
 
@@ -533,7 +533,7 @@ Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nou
   <button class="wv-surface-btn" id="wvSurfaceBtn" type="button">← Return to the surface</button>
 </div>
 
-<div class="wv-return-label">Return to Surface</div>
+<div class="wv-return-label" onclick="closeWorldview()">Return to Surface</div>
 
 </div><!-- end #worldview -->
 
@@ -969,6 +969,7 @@ init();
       history.pushState({}, "", location.pathname);
     }
   }
+  window.closeWorldview = closeWorldview;
 
   openBtn.addEventListener("click", openWorldview);
   closeBtn.addEventListener("click", closeWorldview);
