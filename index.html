@@ -155,14 +155,45 @@ height:100%;
 display:block;
 image-rendering: pixelated;
 }
-.artefact:hover{ transform: scale(1.02); }
+@keyframes wobble {
+0%{ transform:scale(1) rotate(0deg); opacity:1; }
+15%{ transform:scale(1.18) rotate(-18deg); opacity:1; }
+35%{ transform:scale(1.14) rotate(14deg); opacity:1; }
+55%{ transform:scale(1.10) rotate(-10deg); opacity:1; }
+72%{ transform:scale(1.06) rotate(6deg); opacity:1; }
+88%{ transform:scale(1.03) rotate(-2deg); opacity:1; }
+100%{ transform:scale(1) rotate(0deg); opacity:1; }
+}
+@keyframes iconPop {
+0%{ transform:scale(1) rotate(0deg); }
+30%{ transform:scale(1.22) rotate(-6deg); }
+62%{ transform:scale(0.92) rotate(3deg); }
+100%{ transform:scale(1) rotate(0deg); }
+}
+.artefact:hover{ animation:wobble 0.6s ease forwards !important; }
+.wizard-pin:hover,#cameraPin:hover{ animation:wobble 0.6s ease forwards; }
+#shuffleSpell:hover{ animation:wobble 0.6s ease forwards !important; }
+.wizard-pin.popping,#cameraPin.popping{ animation:iconPop 0.32s ease !important; }
+.artefact.popping{ animation:iconPop 0.32s ease !important; }
+@media(prefers-reduced-motion:reduce){ .artefact,.artefact:hover,.artefact.popping,#shuffleSpell{ animation:none !important; } }
 
-/* RPG dialog box (larger, monochrome, square, no shadows) */
+/* Backdrop */
+#backdrop{
+position:fixed;
+inset:0;
+background:rgba(17,17,17,0.52);
+z-index:997;
+display:none;
+cursor:pointer;
+}
+
+/* RPG dialog box — centered modal */
 .dialog{
 position:fixed;
-left: 24px;
-top: 24px;
-width: min(520px, calc(100vw - 48px));
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: min(480px, calc(100vw - 48px));
 background: 
   linear-gradient(
     135deg,
@@ -185,12 +216,20 @@ pointer-events:none;
 }
 
 /* Dialog title is Spectral now */
+.d-icon{
+display:none;
+width:72px;
+height:72px;
+image-rendering:pixelated;
+margin:0 auto 16px;
+}
 .d-title{
 margin:0 0 10px 0;
 font-family:"Spectral", serif;
 font-size: 20px;
 font-weight: 600;
 letter-spacing: .01em;
+text-align:center;
 }
 .d-text{
 margin:0;
@@ -256,7 +295,7 @@ font-style: italic;
 
 @media (max-width: 520px){
 :root{ --pad:18px; --frameInset:8px; }
-.field{ height: 820px; }
+.field{ height: 1400px; }
 .wizard-pin{ width:70px; height:70px; }
 .wizard-pin img{ width:70px; height:70px; }
 .dialog{ left: 14px; top: 14px; width: min(520px, calc(100vw - 28px)); }
@@ -639,6 +678,7 @@ pointer-events: none;
 </head>
 
 <body>
+<div id="backdrop"></div>
 <div class="wrap">
 
 <!-- Wizard (pinned) -->
@@ -666,7 +706,8 @@ pointer-events: none;
 <section class="field" id="field" aria-label="Field of artefacts"></section>
 
 <!-- RPG Dialog -->
-<div class="dialog" id="dialog" role="dialog" aria-modal="false">
+<div class="dialog" id="dialog" role="dialog" aria-modal="true">
+<img class="d-icon" id="dIcon" alt="">
 <h3 class="d-title" id="dTitle"></h3>
 <p class="d-text" id="dText"></p>
 <img class="d-img" id="dImg" alt="">
@@ -995,9 +1036,10 @@ document.getElementById("spellLine").textContent = choice(INCANTATIONS);
 **********************/
 function hideDialog(){
 dialog.style.display = "none";
+backdrop.style.display = "none";
 }
 
-function openDialogFor(art, anchorRect){
+function openDialogFor(art){
 dTitle.textContent = art.title || "";
 dText.textContent = art.text || "";
 
@@ -1022,20 +1064,17 @@ dLink.style.display = "inline-block";
 dLink.style.display = "none";
 }
 
+// Icon in dialog card
+const iconSrc = art.file ? "icons/" + art.file : (art.src || null);
+if(iconSrc){
+dIcon.src = iconSrc;
+dIcon.style.display = "block";
+} else {
+dIcon.style.display = "none";
+}
+
+backdrop.style.display = "block";
 dialog.style.display = "block";
-
-const margin = 12;
-const dw = dialog.offsetWidth;
-const dh = dialog.offsetHeight;
-
-let left = anchorRect.left + anchorRect.width + 12;
-let top = anchorRect.top - 8;
-
-left = clamp(left, margin, window.innerWidth - dw - margin);
-top = clamp(top, margin, window.innerHeight - dh - margin);
-
-dialog.style.left = left + "px";
-dialog.style.top = top + "px";
 }
 
 /**********************
@@ -1055,6 +1094,7 @@ fieldH = r.height;
 function findSpot(size){
 const pad = 28;
 const tries = 4000;
+const gap = window.matchMedia("(max-width: 520px)").matches ? 10 : GAP;
 
 for(let t=0; t<tries; t++){
 const x = rand(pad, fieldW - size - pad);
@@ -1062,7 +1102,7 @@ const y = rand(pad, fieldH - size - pad);
 
 const ok = nodes.every(n => {
 const required =
-(size/2) + (n.size/2) + GAP + (Math.max(DRIFT_X, DRIFT_Y) * 2);
+(size/2) + (n.size/2) + gap + (Math.max(DRIFT_X, DRIFT_Y) * 2);
 
 const dx = (n.ax - x);
 const dy = (n.ay - y);
@@ -1112,7 +1152,11 @@ el.style.top = ay + "px";
 
 el.addEventListener("click", (e) => {
 e.stopPropagation();
-openDialogFor(art, el.getBoundingClientRect());
+const rect = el.getBoundingClientRect();
+spawnSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
+el.classList.add("popping");
+el.addEventListener("animationend", () => el.classList.remove("popping"), {once:true});
+openDialogFor(art);
 });
 
 field.appendChild(el);
@@ -1146,7 +1190,11 @@ const wizBtn = document.getElementById("wizardPin");
 
 wizBtn.addEventListener("click", (e) => {
 e.stopPropagation();
-openDialogFor(wizData, wizBtn.getBoundingClientRect());
+const wr = wizBtn.getBoundingClientRect();
+spawnSparkle(wr.left + wr.width/2, wr.top + wr.height/2);
+wizBtn.classList.add("popping");
+wizBtn.addEventListener("animationend", () => wizBtn.classList.remove("popping"), {once:true});
+openDialogFor(wizData);
 });
 }
   function setupCamera() {
@@ -1174,13 +1222,44 @@ cam.style.imageRendering = "pixelated";
 }
 
 /**********************
+* Sparkle burst
+**********************/
+function spawnSparkle(cx, cy){
+if(window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+const palette=["#ff6ec7","#ffd700","#7edcff","#E9E8E5","#111111","#c084fc"];
+const count=8;
+for(let i=0;i<count;i++){
+const p=document.createElement("div");
+const size=4+Math.round(Math.random()*4);
+p.style.cssText="position:fixed;width:"+size+"px;height:"+size+"px;background:"+palette[i%palette.length]+";pointer-events:none;z-index:9998;left:"+(cx-size/2)+"px;top:"+(cy-size/2)+"px;image-rendering:pixelated;";
+document.body.appendChild(p);
+const angle=(i/count)*Math.PI*2+Math.random()*0.4;
+const dist=35+Math.random()*40;
+const dx=Math.cos(angle)*dist;
+const dy=Math.sin(angle)*dist;
+p.animate(
+[{transform:"translate(0,0) scale(1)",opacity:1},{transform:"translate("+dx+"px,"+dy+"px) scale(0)",opacity:0}],
+{duration:420+Math.random()*180,easing:"cubic-bezier(0.2,0.8,0.4,1)",fill:"forwards"}
+).onfinish=()=>p.remove();
+}
+}
+
+/**********************
 * Init
 **********************/
 function init(){
 setSpell();
-document.getElementById("shuffleSpell").addEventListener("click", setSpell);
+document.getElementById("shuffleSpell").addEventListener("click", () => {
+setSpell();
+const wnd = document.getElementById("shuffleSpell");
+const wr2 = wnd.getBoundingClientRect();
+spawnSparkle(wr2.left + wr2.width/2, wr2.top + wr2.height/2);
+wnd.classList.add("popping");
+wnd.addEventListener("animationend", () => wnd.classList.remove("popping"), {once:true});
+});
 
 document.getElementById("dClose").addEventListener("click", hideDialog);
+backdrop.addEventListener("click", hideDialog);
 dialog.addEventListener("click", (e) => e.stopPropagation());
 document.addEventListener("click", () => hideDialog());
 
