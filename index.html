@@ -380,7 +380,25 @@ font-style: italic;
   .wv-venture-focus { text-align: left; }
 }
 
-</style>
+
+    @keyframes wv-flicker {
+      0%   { opacity: 0;    }
+      8%   { opacity: 0.88; }
+      16%  { opacity: 0.2;  }
+      24%  { opacity: 0.82; }
+      33%  { opacity: 0.08; }
+      42%  { opacity: 0.86; }
+      52%  { opacity: 0.55; }
+      63%  { opacity: 0.92; }
+      74%  { opacity: 0.72; }
+      85%  { opacity: 0.92; }
+      93%  { opacity: 0.82; }
+      100% { opacity: 0.92; }
+    }
+    .wv-section-title.wv-flicker {
+      animation: wv-flicker 0.75s ease-out forwards;
+    }
+  </style>
 </head>
 
 <body>
