@@ -379,25 +379,6 @@ font-style: italic;
   .wv-venture { flex-direction: column; gap: 0; }
   .wv-venture-focus { text-align: left; }
 }
-
-
-    @keyframes wv-flicker {
-      0%   { opacity: 0;    }
-      8%   { opacity: 0.88; }
-      16%  { opacity: 0.2;  }
-      24%  { opacity: 0.82; }
-      33%  { opacity: 0.08; }
-      42%  { opacity: 0.86; }
-      52%  { opacity: 0.55; }
-      63%  { opacity: 0.92; }
-      74%  { opacity: 0.72; }
-      85%  { opacity: 0.92; }
-      93%  { opacity: 0.82; }
-      100% { opacity: 0.92; }
-    }
-    .wv-section-title.wv-flicker {
-      animation: wv-flicker 0.75s ease-out forwards;
-    }
   </style>
 </head>
 
@@ -1008,19 +989,6 @@ init();
   if (location.hash === "#worldview") {
     openWorldview();
   }
-  // Section title flicker on scroll-into-view
-  const wvContainer = document.getElementById('worldview');
-  const flickerObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        el.classList.remove('wv-flicker');
-        void el.offsetWidth;
-        el.classList.add('wv-flicker');
-      }
-    });
-  }, { root: wvContainer, threshold: 0.25 });
-  document.querySelectorAll('.wv-section-title').forEach(el => flickerObserver.observe(el));
 })();
 </script>
 </body>
