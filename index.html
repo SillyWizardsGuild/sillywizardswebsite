@@ -1008,6 +1008,19 @@ init();
   if (location.hash === "#worldview") {
     openWorldview();
   }
+  // Section title flicker on scroll-into-view
+  const wvContainer = document.getElementById('worldview');
+  const flickerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        el.classList.remove('wv-flicker');
+        void el.offsetWidth;
+        el.classList.add('wv-flicker');
+      }
+    });
+  }, { root: wvContainer, threshold: 0.25 });
+  document.querySelectorAll('.wv-section-title').forEach(el => flickerObserver.observe(el));
 })();
 </script>
 </body>
