@@ -422,11 +422,11 @@ pointer-events: none;
 }
 
 .wv-pullquote-title {
-  font-size: clamp(44px, 7.5vw, 100px);
+  font-size: clamp(60px, 13vw, 180px);
   font-weight: 400;
-  line-height: 1;
-  margin: 0 0 18px;
-  letter-spacing: -0.01em;
+  line-height: 0.88;
+  margin: 0 0 36px;
+  letter-spacing: -0.04em;
   color: rgba(233,232,229,0.92);
 }
 
@@ -512,6 +512,19 @@ pointer-events: none;
   margin: 32px 0 0;
 }
 
+.wv-scarce {
+  font-size: clamp(46px, 9.5vw, 128px);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: rgba(233,232,229,0.88);
+  text-align: center;
+  margin: 0;
+  padding: 80px 0;
+  border-top: 1px solid rgba(233,232,229,0.1);
+  border-bottom: 1px solid rgba(233,232,229,0.1);
+}
+
 /* Beliefs list */
 .wv-beliefs {
   list-style: none;
@@ -520,11 +533,11 @@ pointer-events: none;
 }
 
 .wv-beliefs li {
-  font-size: clamp(19px, 2.5vw, 32px);
+  font-size: clamp(26px, 4.2vw, 54px);
   font-weight: 400;
-  line-height: 1.25;
+  line-height: 1.2;
   color: rgba(233,232,229,0.82);
-  padding: 20px 0;
+  padding: 28px 0;
   border-bottom: 1px solid rgba(233,232,229,0.09);
 }
 
@@ -641,13 +654,22 @@ pointer-events: none;
   opacity: 0.55;
 }
 
-.wv-closing-statement {
-  font-size: clamp(20px, 2.8vw, 38px);
+.wv-closing-line {
+  font-size: clamp(26px, 4.2vw, 54px);
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: rgba(233,232,229,0.88);
-  max-width: 620px;
-  margin: 0 0 52px;
+  max-width: 740px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+.wv-closing-line--and {
+  font-size: clamp(17px, 2.4vw, 30px);
+  font-style: italic;
+  color: rgba(233,232,229,0.38);
+  letter-spacing: -0.01em;
+  margin: 0 auto 52px;
 }
 
 .wv-surface-btn {
@@ -759,7 +781,9 @@ Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nou
   <div class="wv-section">
     <div class="wv-section-inner">
       <p class="wv-label">The Shift</p>
-      <p class="wv-prose">AI is transforming creative production. Tools are accelerating faster than understanding. Content is abundant. Meaning is scarce. Experiences are becoming technologically richer but emotionally thinner.</p>
+      <p class="wv-prose">AI is transforming creative production. Tools are accelerating faster than understanding. Content is abundant.</p>
+<p class="wv-scarce">Meaning is scarce.</p>
+<p class="wv-prose">Experiences are becoming technologically richer but emotionally thinner.</p>
       <p class="wv-prose-italic">Creativity is shifting from production toward orchestration. The value is no longer in making more content, but in designing more meaningful systems.</p>
     </div>
   </div>
@@ -860,7 +884,8 @@ Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nou
   <!-- 9. Closing -->
   <div class="wv-closing">
     <img class="wv-closing-logo" src="SillyBlackLogoLine.png" alt="Silly Wizards" style="filter:invert(1) sepia(0.12) brightness(0.88);">
-    <p class="wv-closing-statement">Exploring more meaningful relationships between humans, creativity and technology. And designing human-centred systems for the AI era.</p>
+    <p class="wv-closing-line">Exploring more meaningful relationships between humans, creativity and technology.</p>
+<p class="wv-closing-line wv-closing-line--and">And designing human-centred systems for the AI era.</p>
     <button class="wv-surface-btn" id="wvSurfaceBtn" type="button">← Return to the surface</button>
   </div>
 
