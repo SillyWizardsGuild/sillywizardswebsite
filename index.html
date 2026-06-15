@@ -190,10 +190,10 @@ cursor:pointer;
 /* RPG dialog box — centered modal */
 .dialog{
 position:fixed;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
+inset: 0;
+margin: auto;
 width: min(480px, calc(100vw - 48px));
+height: fit-content;
 background: 
   linear-gradient(
     135deg,
