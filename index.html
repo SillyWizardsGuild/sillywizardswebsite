@@ -191,8 +191,7 @@ cursor:pointer;
 .dialog{
 position:fixed;
 left:50%;
-top:50%;
-top:50dvh;
+top:50svh;
 transform:translate(-50%,-50%);
 width: min(480px, calc(100vw - 48px));
 display:none;
@@ -411,7 +410,7 @@ font-style: italic;
 <section class="field" id="field" aria-label="Field of artefacts"></section>
 
 <!-- RPG Dialog -->
-<div id="backdrop"></div>
+<div id="backdrop"></div></div>
 <div class="dialog" id="dialog" role="dialog" aria-modal="true">
 <img class="d-icon" id="dIcon" alt="">
 <h3 class="d-title" id="dTitle"></h3>
@@ -421,9 +420,7 @@ font-style: italic;
 <a class="d-link" id="dLink" href="#" target="_blank" rel="noopener">Enter →</a>
 <button class="d-close" id="dClose" type="button">Close</button>
 </div>
-</div>
-
-<footer>
+</div>er>
 Pixel artefacts courtesy of DJ Kirie / NHA / Rizkey / Robin Lopez / Widphic @nounproject.
 </footer>
 
