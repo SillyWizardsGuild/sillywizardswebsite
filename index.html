@@ -184,16 +184,15 @@ inset:0;
 background:rgba(17,17,17,0.52);
 z-index:997;
 display:none;
+align-items:center;
+justify-content:center;
 cursor:pointer;
 }
 
 /* RPG dialog box — centered modal */
 .dialog{
-position:fixed;
-inset: 0;
-margin: auto;
+position:relative;
 width: min(480px, calc(100vw - 48px));
-height: fit-content;
 background: 
   linear-gradient(
     135deg,
@@ -383,7 +382,7 @@ font-style: italic;
 </head>
 
 <body>
-<div id="backdrop"></div>
+<div id="backdrop">
 <div class="wrap">
 
 <!-- Wizard (pinned) -->
@@ -419,6 +418,7 @@ font-style: italic;
 <div class="d-actions">
 <a class="d-link" id="dLink" href="#" target="_blank" rel="noopener">Enter →</a>
 <button class="d-close" id="dClose" type="button">Close</button>
+</div>
 </div>
 </div>
 
@@ -715,7 +715,6 @@ document.getElementById("spellLine").textContent = choice(INCANTATIONS);
 * Dialog
 **********************/
 function hideDialog(){
-dialog.style.display = "none";
 backdrop.style.display = "none";
 }
 
@@ -753,8 +752,7 @@ dIcon.style.display = "block";
 dIcon.style.display = "none";
 }
 
-backdrop.style.display = "block";
-dialog.style.display = "block";
+backdrop.style.display = "flex";
 }
 
 /**********************
