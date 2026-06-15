@@ -184,15 +184,18 @@ inset:0;
 background:rgba(17,17,17,0.52);
 z-index:997;
 display:none;
-align-items:center;
-justify-content:center;
 cursor:pointer;
 }
 
 /* RPG dialog box — centered modal */
 .dialog{
-position:relative;
+position:fixed;
+left:50%;
+top:50%;
+top:50dvh;
+transform:translate(-50%,-50%);
 width: min(480px, calc(100vw - 48px));
+display:none;
 background: 
   linear-gradient(
     135deg,
@@ -714,6 +717,7 @@ document.getElementById("spellLine").textContent = choice(INCANTATIONS);
 * Dialog
 **********************/
 function hideDialog(){
+dialog.style.display = "none";
 backdrop.style.display = "none";
 }
 
@@ -751,7 +755,8 @@ dIcon.style.display = "block";
 dIcon.style.display = "none";
 }
 
-backdrop.style.display = "flex";
+backdrop.style.display = "block";
+dialog.style.display = "block";
 }
 
 /**********************
