@@ -7,6 +7,12 @@ Newest first. Append only — never rewrite an entry. A correction is a new entr
 
 ---
 
+## 2026-08-18 — Canon approved, and profile `build` with it
+**Status:** APPROVED
+**Decision:** `aios/CANON.md` stands as written and is now frozen — it changes only by a dated decision in this log. Profile `build` is settled with it.
+**Evidence:** Owner approved canon in session on 2026-08-18. The profile is read as approved alongside it, because `aios/CANON.md` is required *by* profile `build` and exists for no other reason — approving the one without the other would be incoherent.
+**Practical consequence:** Supersedes the RECOMMENDED profile entry of the same date. If the profile reading is wrong, it is one word in `CLAUDE.md` line 1 and a new entry here. The Guild's public-face question stays OPEN and is untouched by this.
+
 ## 2026-08-18 — The exposed GitHub token is revoked
 **Status:** APPROVED
 **Decision:** Closed. The personal access token found in `CLAUDE COWORK/og-upload.html` has been deleted in GitHub settings and is dead.
@@ -29,7 +35,7 @@ Newest first. Append only — never rewrite an entry. A correction is a new entr
 **Practical consequence:** Until it is decided, nothing on the site gets a service list, a price or a contact funnel. A change in that direction is this decision being made by accident, which is the thing this entry exists to prevent.
 
 ## 2026-08-18 — Profile is `build`, not `core`
-**Status:** RECOMMENDED
+**Status:** SUPERSEDED — signed off by the entry of 2026-08-18 approving canon and the profile
 **Decision:** This repo installs at profile `build`, which adds `aios/CANON.md` to the core set.
 **Evidence:** It ships a deployed artefact — one page plus twenty-four icons, live at sillywizardsguild.com via Vercel from `main`. No experimental runs, so not `research`; no schedule, so not `operator`.
 **Practical consequence:** `aios/CANON.md` is required and is now written by hand. Awaiting the owner's verdict.
