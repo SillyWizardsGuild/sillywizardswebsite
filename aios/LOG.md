@@ -7,6 +7,15 @@ Newest first. Append only — never rewrite an entry. A correction is a new entr
 
 ---
 
+## 2026-08-18 — A GitHub personal access token was found in plain text on disk
+**Status:** OPEN
+**Decision:** Undecided until the owner acts. The token is not in this repo and not in any repo's history — it sits in `CLAUDE COWORK/og-upload.html` on the owner's machine, a one-off script written to push a social image to `simon-swg/attelje-website` via the GitHub API.
+**Evidence:** Found on 2026-08-18 while adding social tags here. Checked against the tracked files and full history of all four repos in the fleet — no match. The token grants write access to the owner's repositories.
+**Practical consequence:** The token must be revoked in GitHub settings and the file deleted. Recorded here rather than in the Attelje repo because it is a fleet-wide credential, not an Attelje one. Logged as a pointer with no payload — the token itself is not written down (AiOS canon §6). Supersede this entry once revoked.
+
+## 2026-08-18 — Description and social sharing tags added
+**Change.** `index.html` had a title and nothing else in its head. A posted link rendered as a bare URL — no title, no image, no text — on a site whose only job is to catch people who saw the mark elsewhere. Added a meta description, Open Graph and Twitter card tags, using `SillyBlackLogoLine.png` (1920×1080, already in the repo) as the share image. Copy taken from the site's own argument: "Content is abundant. Meaning is scarce." Two boxes ticked on TASK_001.
+
 ## 2026-08-18 — Does the Guild stay quiet infrastructure, or does it need a public face?
 **Status:** OPEN
 **Decision:** Undecided, and deliberately so. Recorded here because it has been an open thread since April and had no home.

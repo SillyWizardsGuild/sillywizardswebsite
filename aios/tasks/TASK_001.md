@@ -17,8 +17,8 @@ rule for where the Guild mark appears.
 
 ## Done when
 
-- [ ] `index.html` carries a meta description
-- [ ] `index.html` carries social sharing tags, so a posted link renders a card rather than a bare URL
+- [x] `index.html` carries a meta description
+- [x] `index.html` carries social sharing tags, so a posted link renders a card rather than a bare URL
 - [ ] The hidden layer has been confirmed working on a phone, by tap rather than hover
 - [ ] Where the Guild mark appears is written down as a rule — Attelje carries it on all three pages, Attwork carries it nowhere, and there is currently no stated reason for the difference
 
