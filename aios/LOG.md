@@ -7,8 +7,14 @@ Newest first. Append only — never rewrite an entry. A correction is a new entr
 
 ---
 
+## 2026-08-18 — The exposed GitHub token is revoked
+**Status:** APPROVED
+**Decision:** Closed. The personal access token found in `CLAUDE COWORK/og-upload.html` has been deleted in GitHub settings and is dead.
+**Evidence:** Owner confirmed deletion in session on 2026-08-18. It was never committed to any repo in the fleet — checked against tracked files and full history before this entry was opened.
+**Practical consequence:** Supersedes the OPEN entry of the same date. `og-upload.html` can be deleted from disk; it is now inert either way. Standing consequence: nothing writes a credential into a file in this fleet — the pattern that produced this was a throwaway script written to do one upload and never cleaned up.
+
 ## 2026-08-18 — A GitHub personal access token was found in plain text on disk
-**Status:** OPEN
+**Status:** SUPERSEDED — resolved by the entry of 2026-08-18 confirming revocation
 **Decision:** Undecided until the owner acts. The token is not in this repo and not in any repo's history — it sits in `CLAUDE COWORK/og-upload.html` on the owner's machine, a one-off script written to push a social image to `simon-swg/attelje-website` via the GitHub API.
 **Evidence:** Found on 2026-08-18 while adding social tags here. Checked against the tracked files and full history of all four repos in the fleet — no match. The token grants write access to the owner's repositories.
 **Practical consequence:** The token must be revoked in GitHub settings and the file deleted. Recorded here rather than in the Attelje repo because it is a fleet-wide credential, not an Attelje one. Logged as a pointer with no payload — the token itself is not written down (AiOS canon §6). Supersede this entry once revoked.
