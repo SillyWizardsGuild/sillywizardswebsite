@@ -1,6 +1,6 @@
 <!-- GENERATED — do not edit. Edits are overwritten at next close. -->
-Generated 2026-08-18 14:19 +0000 · HEAD e03fbc9 · branch main · host claude · generator v2.0
-STALENESS RULE: if `git rev-parse HEAD` ≠ e03fbc9, or the tree is dirty, this file is HISTORY. Regenerate before acting on it.
+Generated 2026-08-18 14:30 +0000 · HEAD 1c8f6cb · branch main · host claude · generator v2.0
+STALENESS RULE: if `git rev-parse HEAD` ≠ 1c8f6cb, or the tree is dirty, this file is HISTORY. Regenerate before acting on it.
 
 ## 1 · Identity
 <sub>CLAUDE.md, the five human lines — the only human input in this file</sub>
@@ -14,16 +14,16 @@ STALENESS RULE: if `git rev-parse HEAD` ≠ e03fbc9, or the tree is dirty, this 
 ## 2 · Head
 <sub>git rev-parse HEAD · git log -1 · git rev-list --left-right --count @{u}...HEAD</sub>
 
-> **As of `e03fbc9`.** The close commits this file after generating it, so the counts below are one commit old the moment they land. Re-run `aios-state` for current numbers.
+> **As of `1c8f6cb`.** The close commits this file after generating it, so the counts below are one commit old the moment they land. Re-run `aios-state` for current numbers.
 
-- **main @ e03fbc9** — Close out the exposed token: revoked
-- Committed 2026-08-18 14:19 by simon-swg
+- **main @ 1c8f6cb** — Approve canon and profile build
+- Committed 2026-08-18 14:30 by simon-swg
 - Upstream: origin/main · **1 ahead**, 0 behind
 
 ## 3 · Working tree
 <sub>git status --porcelain + a filesystem diff against git ls-files</sub>
 
-> **As of `e03fbc9`, before this file was committed.** `aios/STATE.md` and `aios/CLOSING` appear here for that reason and are not real dirt.
+> **As of `1c8f6cb`, before this file was committed.** `aios/STATE.md` and `aios/CLOSING` appear here for that reason and are not real dirt.
 
 - Clean.
 
@@ -33,18 +33,17 @@ STALENESS RULE: if `git rev-parse HEAD` ≠ e03fbc9, or the tree is dirty, this 
 - None. Every branch has an upstream.
 
 ## 5 · Since last close
-<sub>git log 46551d4..HEAD</sub>
+<sub>git log e03fbc9..HEAD</sub>
 
-- `e03fbc9` 2026-08-18 — Close out the exposed token: revoked
-- `b1e1f26` 2026-08-18 — Regenerate aios/STATE.md
+- `1c8f6cb` 2026-08-18 — Approve canon and profile build
+- `2c069bd` 2026-08-18 — Regenerate aios/STATE.md
 
-Close marker: e03fbc98ae7f98d31d7151b8fe66aeb3a5d26b69
+Close marker: 1c8f6cb2a1710255cda87225359880aebe1cb9c1
 
 ## 6 · Awaiting judgment
 <sub>aios/LOG.md headings + **Status:** lines — headings, dates and statuses only, never bodies</sub>
 
 - **OPEN** · 2026-08-18 (0d) — Does the Guild stay quiet infrastructure, or does it need a public face?
-- **RECOMMENDED** · 2026-08-18 (0d) — Profile is `build`, not `core`
 
 ## 7 · Active tasks
 <sub>aios/tasks/* + git log -1 -- <file></sub>
@@ -57,8 +56,8 @@ Close marker: e03fbc98ae7f98d31d7151b8fe66aeb3a5d26b69
 - `README.md` — 181d old, **181d behind** the newest commit in the repo
 - `CLAUDE.md` — 0d old, **0d behind** the newest commit in the repo
 - `aios/CANON.md` — 0d old, **0d behind** the newest commit in the repo
-- `aios/STATE.md` — 0d old, **0d behind** the newest commit in the repo
 - `aios/tasks/TASK_001.md` — 0d old, **0d behind** the newest commit in the repo
+- `aios/STATE.md` — 0d old, **0d behind** the newest commit in the repo
 - `aios/LOG.md` — 0d old, **0d behind** the newest commit in the repo
 
 ## 9 · Cross-repo pins
